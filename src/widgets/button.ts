@@ -1,22 +1,24 @@
 // importing local code, code we have written
-import {IdleUpWidgetState, PressedWidgetState } from "../core/ui";
-import {Window, Widget, RoleType, EventArgs} from "../core/ui";
+import { IdleUpWidgetState, PressedWidgetState } from "../core/ui";
+import { Window, Widget, RoleType, EventArgs } from "../core/ui";
 // importing code from SVG.js library
-import {Rect, Text, Box} from "../core/ui";
+import { Rect, Text, Box } from "../core/ui";
 
-class Button extends Widget{
+class Button extends Widget {
     private _rect: Rect;
     private _text: Text;
     private _input: string;
     private _fontSize: number;
     private _text_y: number;
     private _text_x: number;
-    private defaultText: string= "Button";
+    private defaultText: string = "Button";
     private defaultFontSize: number = 18;
     private defaultWidth: number = 80;
     private defaultHeight: number = 30;
 
-    constructor(parent:Window){
+    private onClickCallback?: () => void;
+
+    constructor(parent: Window) {
         super(parent);
         // set defaults
         this.height = this.defaultHeight;
@@ -33,21 +35,30 @@ class Button extends Widget{
         this.selectable = false;
     }
 
-    set fontSize(size:number){
-        this._fontSize= size;
+    get label(): string {
+        return this._input;
+    }
+
+    set label(value: string) {
+        this._input = value;
         this.update();
     }
 
-    private positionText(){
-        let box:Box = this._text.bbox();
+    set fontSize(size: number) {
+        this._fontSize = size;
+        this.update();
+    }
+
+    private positionText() {
+        let box: Box = this._text.bbox();
         // in TS, the prepending with + performs a type conversion from string to number
-        this._text_y = (+this._rect.y() + ((+this._rect.height()/2)) - (box.height/2));
+        this._text_y = (+this._rect.y() + ((+this._rect.height() / 2)) - (box.height / 2));
         this._text.x(+this._rect.x() + 4);
-        if (this._text_y > 0){
+        if (this._text_y > 0) {
             this._text.y(this._text_y);
         }
     }
-    
+
     render(): void {
         this._group = (this.parent as Window).window.group();
         this._rect = this._group.rect(this.width, this.height);
@@ -66,46 +77,51 @@ class Button extends Widget{
     }
 
     override update(): void {
-        if(this._text != null)
+        if (this._text != null)
             this._text.font('size', this._fontSize);
-            this._text.text(this._input);
-            this.positionText();
+        this._text.text(this._input);
+        this.positionText();
 
-        if(this._rect != null)
+        if (this._rect != null)
             this._rect.fill(this.backcolor);
-        
+
         super.update();
     }
-    
-    pressReleaseState(): void{
 
-        if (this.previousState instanceof PressedWidgetState)
+    pressReleaseState(): void {
+        if (this.previousState instanceof PressedWidgetState) {
             this.raise(new EventArgs(this));
+            if (this.onClickCallback) {
+                this.onClickCallback();
+            }
+        }
     }
 
     //TODO: implement the onClick event using a callback passed as a parameter
-    onClick(/*TODO: add callback parameter*/):void{}
+    onClick(callback: () => void): void {
+        this.onClickCallback = callback;
+    }
 
-    
+
     //TODO: give the states something to do! Use these methods to control the visual appearance of your
     //widget
     idleupState(): void {
-        throw new Error("Method not implemented.");
+        this._rect.fill('white');
     }
     idledownState(): void {
-        throw new Error("Method not implemented.");
+        this._rect.fill('gray');
     }
     pressedState(): void {
-        throw new Error("Method not implemented.");
+        this._rect.fill('darkgray');
     }
     hoverState(): void {
-        throw new Error("Method not implemented.");
+        this._rect.fill('lightgray');
     }
     hoverPressedState(): void {
-        throw new Error("Method not implemented.");
+        this._rect.fill('darkblue');
     }
     pressedoutState(): void {
-        throw new Error("Method not implemented.");
+        this._rect.fill('red');
     }
     moveState(): void {
         throw new Error("Method not implemented.");
@@ -115,4 +131,4 @@ class Button extends Widget{
     }
 }
 
-export {Button}
+export { Button }
