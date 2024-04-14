@@ -78,40 +78,42 @@ class Button extends Widget{
     }
     
     pressReleaseState(): void{
-
+        console.log("pressReleaseState");
         if (this.previousState instanceof PressedWidgetState)
             this.raise(new EventArgs(this));
     }
 
     //TODO: implement the onClick event using a callback passed as a parameter
-    onClick(/*TODO: add callback parameter*/):void{}
+    onClick(callback:{(event?:any):void}):void{
+        this.attach(callback);
+    }
 
     
     //TODO: give the states something to do! Use these methods to control the visual appearance of your
     //widget
     idleupState(): void {
-        throw new Error("Method not implemented.");
+        console.log("idleUpState");
     }
     idledownState(): void {
-        throw new Error("Method not implemented.");
+        console.log("idleDownState");
     }
     pressedState(): void {
-        throw new Error("Method not implemented.");
+        console.log("pressedState");
     }
     hoverState(): void {
-        throw new Error("Method not implemented.");
+        console.log("hoverState");
     }
     hoverPressedState(): void {
-        throw new Error("Method not implemented.");
+        console.log("hoverPressedState");
     }
     pressedoutState(): void {
-        throw new Error("Method not implemented.");
+        console.log("pressedoutState");
     }
     moveState(): void {
-        throw new Error("Method not implemented.");
+        console.log("moveState");
     }
     keyupState(keyEvent?: KeyboardEvent): void {
-        throw new Error("Method not implemented.");
+        console.log("keyupState");
     }
 }
 
