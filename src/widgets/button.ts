@@ -82,8 +82,9 @@ class Button extends Widget {
 
         super.update();
     }
-
+    
     pressReleaseState(): void {
+        console.log("pressReleaseState");
         if (this.previousState instanceof PressedWidgetState) {
             this.raise(new EventArgs(this));
             if (this.onClickCallback) {
@@ -92,43 +93,38 @@ class Button extends Widget {
         }
     }
 
+
     //TODO: implement the onClick event using a callback passed as a parameter
-    onClick(callback: () => void): void {
-        this.onClickCallback = callback;
+    onClick(callback:{(event?:any):void}):void{
+        this.attach(callback);
     }
 
-
+    
     //TODO: give the states something to do! Use these methods to control the visual appearance of your
     //widget
     idleupState(): void {
         this._rect.fill('#ADD8E6'); 
     }
-    
     idledownState(): void {
         this._rect.fill('#007BFF'); 
     }
-    
     pressedState(): void {
         this._rect.fill('#0056B3'); 
     }
-    
     hoverState(): void {
         this._rect.fill('#87CEFA'); 
     }
-    
     hoverPressedState(): void {
         this._rect.fill('#4682B4'); 
     }
-    
     pressedoutState(): void {
         this._rect.fill('#1E90FF'); 
     }
-
     moveState(): void {
-        throw new Error("Method not implemented.");
+        console.log("moveState");
     }
     keyupState(keyEvent?: KeyboardEvent): void {
-        throw new Error("Method not implemented.");
+        console.log("keyupState");
     }
 }
 
