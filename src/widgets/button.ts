@@ -63,16 +63,11 @@ class Button extends Widget {
         this._group = (this.parent as Window).window.group();
         this._rect = this._group.rect(this.width, this.height);
         this._rect.stroke("black");
+        this._rect.fill('#ADD8E6');  
         this._text = this._group.text(this._input);
-        // Set the outer svg element 
         this.outerSvg = this._group;
-        // Add a transparent rect on top of text to 
-        // prevent selection cursor and to handle mouse events
-        let eventrect = this._group.rect(this.width, this.height).opacity(0).attr('id', 0);
 
-        // register objects that should receive event notifications.
-        // for this widget, we want to know when the group or rect objects
-        // receive events
+        let eventrect = this._group.rect(this.width, this.height).opacity(0).attr('id', 0);
         this.registerEvent(eventrect);
     }
 
@@ -106,23 +101,29 @@ class Button extends Widget {
     //TODO: give the states something to do! Use these methods to control the visual appearance of your
     //widget
     idleupState(): void {
-        this._rect.fill('white');
+        this._rect.fill('#ADD8E6'); 
     }
+    
     idledownState(): void {
-        this._rect.fill('gray');
+        this._rect.fill('#007BFF'); 
     }
+    
     pressedState(): void {
-        this._rect.fill('darkgray');
+        this._rect.fill('#0056B3'); 
     }
+    
     hoverState(): void {
-        this._rect.fill('lightgray');
+        this._rect.fill('#87CEFA'); 
     }
+    
     hoverPressedState(): void {
-        this._rect.fill('darkblue');
+        this._rect.fill('#4682B4'); 
     }
+    
     pressedoutState(): void {
-        this._rect.fill('red');
+        this._rect.fill('#1E90FF'); 
     }
+
     moveState(): void {
         throw new Error("Method not implemented.");
     }
