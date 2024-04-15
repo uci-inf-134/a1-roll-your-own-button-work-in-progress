@@ -63,7 +63,7 @@ class Button extends Widget {
         this._group = (this.parent as Window).window.group();
         this._rect = this._group.rect(this.width, this.height);
         this._rect.stroke("black");
-        this._rect.fill('#ADD8E6');  
+        this._rect.fill('#ADD8E6');
         this._text = this._group.text(this._input);
         this.outerSvg = this._group;
 
@@ -82,7 +82,7 @@ class Button extends Widget {
 
         super.update();
     }
-    
+
     pressReleaseState(): void {
         console.log("pressReleaseState");
         if (this.previousState instanceof PressedWidgetState) {
@@ -93,32 +93,30 @@ class Button extends Widget {
         }
     }
 
-
     //TODO: implement the onClick event using a callback passed as a parameter
-    onClick(callback:{(event?:any):void}):void{
+    onClick(callback: { (event?: any): void }): void {
         this.attach(callback);
     }
 
-    
     //TODO: give the states something to do! Use these methods to control the visual appearance of your
     //widget
     idleupState(): void {
-        this._rect.fill('#ADD8E6'); 
+        this._rect.fill('#ADD8E6');
     }
     idledownState(): void {
-        this._rect.fill('#007BFF'); 
+        this._rect.fill('#007BFF');
     }
     pressedState(): void {
-        this._rect.fill('#0056B3'); 
+        this._rect.fill('#0056B3');
     }
     hoverState(): void {
-        this._rect.fill('#87CEFA'); 
+        this._rect.fill('#87CEFA');
     }
     hoverPressedState(): void {
-        this._rect.fill('#4682B4'); 
+        this._rect.fill('#4682B4');
     }
     pressedoutState(): void {
-        this._rect.fill('#1E90FF'); 
+        this._rect.fill('#1E90FF');
     }
     moveState(): void {
         console.log("moveState");
