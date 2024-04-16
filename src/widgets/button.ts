@@ -16,9 +16,6 @@ class Button extends Widget {
     private defaultWidth: number = 80;
     private defaultHeight: number = 30;
 
-    // custom size attribute
-
-
     constructor(parent: Window) {
         super(parent);
         // set defaults
@@ -66,10 +63,10 @@ class Button extends Widget {
     get widthSize() {
         return this.width;
     }
+
     get heightSize() {
         return this.height;
     }
-
 
     private positionText() {
         let box: Box = this._text.bbox();
