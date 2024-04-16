@@ -44,14 +44,13 @@ class Button extends Widget{
     // custom size set
     set widthSize(size: number)
     {
-        this.width = size;
-        //this.update();
-        this.render();
+        this._rect.attr('width',size);
+        this.update();
     }
 
     set heightSize(size:number)
     {
-        this.height = size;
+        this._rect.attr('height', size);
         //this.update();
         this.render();
     }
