@@ -129,7 +129,7 @@ class Button extends Widget {
         this._rect.fill('#ADD8E6');
     }
     idledownState(): void {
-        this._rect.fill('#007BFF');
+        // this._rect.fill('#007BFF');
     }
     pressedState(): void {
         this._rect.fill('#0056B3');
