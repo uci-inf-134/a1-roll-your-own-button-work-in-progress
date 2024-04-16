@@ -16,7 +16,8 @@ class Button extends Widget{
     private defaultWidth: number = 80;
     private defaultHeight: number = 30;
 
-    // custom size attribute
+    private fontFamily: string = 'Helvetica';
+    private defaultRadius: number = 10;
   
 
     constructor(parent:Window){
@@ -41,6 +42,16 @@ class Button extends Widget{
         this.update();
     }
 
+    get label(): string {
+        return this._input;
+    }
+
+    set label(value: string) {
+        this._input = value;
+        this.update();
+    }
+
+    
     // custom size set
     set widthSize(size: number)
     {
@@ -78,8 +89,15 @@ class Button extends Widget{
     render(): void {
         this._group = (this.parent as Window).window.group();
         this._rect = this._group.rect(this.width, this.height);
-        this._rect.stroke("black");
+       
+        this._rect.fill('#ADD8E6');
+        this._rect.radius(this.defaultRadius);
+
         this._text = this._group.text(this._input);
+        this._text.font('family', this.fontFamily);
+        this._text.font('anchor', 'middle');
+        this._text.font('text-overflow', 'clip');
+
         // Set the outer svg element 
         this.outerSvg = this._group;
         // Add a transparent rect on top of text to 
@@ -96,6 +114,7 @@ class Button extends Widget{
         if(this._text != null)
             this._text.font('size', this._fontSize);
             this._text.text(this._input);
+            
             this.positionText();
 
         if(this._rect != null)
@@ -110,35 +129,35 @@ class Button extends Widget{
             this.raise(new EventArgs(this));
     }
 
-    //TODO: implement the onClick event using a callback passed as a parameter
-    onClick(/*TODO: add callback parameter*/):void{}
+   
+    onClick(callback: { (event?: any): void }): void {
+        this.attach(callback);
+    }
 
     
-    //TODO: give the states something to do! Use these methods to control the visual appearance of your
-    //widget
     idleupState(): void {
-        throw new Error("Method not implemented.");
+        this._rect.fill('#ADD8E6');
     }
     idledownState(): void {
-        throw new Error("Method not implemented.");
+        this._rect.fill('#007BFF');
     }
     pressedState(): void {
-        throw new Error("Method not implemented.");
+        this._rect.fill('#0056B3');
     }
     hoverState(): void {
-        throw new Error("Method not implemented.");
+        this._rect.fill('#87CEFA');
     }
     hoverPressedState(): void {
-        throw new Error("Method not implemented.");
+        this._rect.fill('#4682B4');
     }
     pressedoutState(): void {
-        throw new Error("Method not implemented.");
+        this._rect.fill('#1E90FF');
     }
     moveState(): void {
-        throw new Error("Method not implemented.");
+        console.log("moveState");
     }
     keyupState(keyEvent?: KeyboardEvent): void {
-        throw new Error("Method not implemented.");
+        console.log("keyupState");
     }
 }
 
