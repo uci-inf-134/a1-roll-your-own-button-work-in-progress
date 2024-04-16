@@ -89,13 +89,15 @@ class Button extends Widget{
         this._group = (this.parent as Window).window.group();
         this._rect = this._group.rect(this.width, this.height);
        
+        //custom color w/ rounded edges
         this._rect.fill('#ADD8E6');
         this._rect.radius(this.defaultRadius);
-
+       
+        //adjusting text
         this._text = this._group.text(this._input);
+        this._text.attr('text-length', this.width);
+        this._text.attr('text-align', 'center');
         this._text.font('family', this.fontFamily);
-        this._text.font('anchor', 'middle');
-        this._text.font('text-overflow', 'clip');
 
         // Set the outer svg element 
         this.outerSvg = this._group;
