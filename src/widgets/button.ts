@@ -9,14 +9,15 @@ class Button extends Widget {
     private _text: Text;
     private _input: string;
     private _fontSize: number;
-    private _text_y: number;
     private _text_x: number;
+    private _text_y: number;
     private defaultText: string = "Button";
     private defaultFontSize: number = 18;
     private defaultWidth: number = 80;
     private defaultHeight: number = 30;
 
-    private onClickCallback?: () => void;
+    // custom size attribute
+
 
     constructor(parent: Window) {
         super(parent);
@@ -49,6 +50,27 @@ class Button extends Widget {
         this.update();
     }
 
+    // custom size set
+    set widthSize(size: number) {
+        this._rect.attr('width', size);
+        this.update();
+    }
+
+    set heightSize(size: number) {
+        this._rect.attr('height', size);
+        //this.update();
+        this.render();
+    }
+
+    //get custom size
+    get widthSize() {
+        return this.width;
+    }
+    get heightSize() {
+        return this.height;
+    }
+
+
     private positionText() {
         let box: Box = this._text.bbox();
         // in TS, the prepending with + performs a type conversion from string to number
@@ -63,11 +85,16 @@ class Button extends Widget {
         this._group = (this.parent as Window).window.group();
         this._rect = this._group.rect(this.width, this.height);
         this._rect.stroke("black");
-        this._rect.fill('#ADD8E6');
         this._text = this._group.text(this._input);
+        // Set the outer svg element 
         this.outerSvg = this._group;
-
+        // Add a transparent rect on top of text to 
+        // prevent selection cursor and to handle mouse events
         let eventrect = this._group.rect(this.width, this.height).opacity(0).attr('id', 0);
+
+        // register objects that should receive event notifications.
+        // for this widget, we want to know when the group or rect objects
+        // receive events
         this.registerEvent(eventrect);
     }
 
@@ -84,13 +111,9 @@ class Button extends Widget {
     }
 
     pressReleaseState(): void {
-        console.log("pressReleaseState");
-        if (this.previousState instanceof PressedWidgetState) {
+
+        if (this.previousState instanceof PressedWidgetState)
             this.raise(new EventArgs(this));
-            if (this.onClickCallback) {
-                this.onClickCallback();
-            }
-        }
     }
 
     //TODO: implement the onClick event using a callback passed as a parameter
