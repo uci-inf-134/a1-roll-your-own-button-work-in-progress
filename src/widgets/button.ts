@@ -17,6 +17,8 @@ class Button extends Widget {
     private defaultWidth: number = 100;
     private defaultHeight: number = 40;
 
+    private fontFamily:string = 'Helvetica';
+
     constructor(parent: Window) {
         super(parent);
         // set defaults
@@ -56,8 +58,7 @@ class Button extends Widget {
 
     set heightSize(size: number) {
         this._rect.attr('height', size);
-        //this.update();
-        this.render();
+        this.update();
     }
 
     //get custom size
@@ -83,7 +84,6 @@ class Button extends Widget {
         this._group = (this.parent as Window).window.group();
         this._rect = this._group.rect(this.width, this.height).radius(10); // Set radius here for rounded corners
         this._rect.fill("#ADD8E6");
-        this._rect.stroke("black");
         this._text = this._group.text(this._input);
         // Set the outer svg element 
         this.outerSvg = this._group;
@@ -97,6 +97,7 @@ class Button extends Widget {
         if (this._text) {
             this._text.font({ size: this._fontSize });
             this._text.text(this._input);
+            this._text.font('family', this.fontFamily);
             let box: Box = this._text.bbox();
             this.width = box.width + 10;
             this._rect.size(this.width, this.height).radius(10); // Ensure the radius is maintained on update
