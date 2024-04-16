@@ -13,9 +13,9 @@ class Button extends Widget {
     private _text_x: number;
     private _text_y: number;
     private defaultText: string = "Button";
-    private defaultFontSize: number = 18;
-    private defaultWidth: number = 80;
-    private defaultHeight: number = 30;
+    private defaultFontSize: number = 20;
+    private defaultWidth: number = 100;
+    private defaultHeight: number = 40;
 
     constructor(parent: Window) {
         super(parent);
@@ -81,18 +81,15 @@ class Button extends Widget {
 
     render(): void {
         this._group = (this.parent as Window).window.group();
-        this._rect = this._group.rect(this.width, this.height);
+        this._rect = this._group.rect(this.width, this.height).radius(10); // Set radius here for rounded corners
         this._rect.fill("#ADD8E6");
         this._rect.stroke("black");
         this._text = this._group.text(this._input);
         // Set the outer svg element 
         this.outerSvg = this._group;
-        // Add a transparent rect on top of text to 
-        // prevent selection cursor and to handle mouse events
+        // Add a transparent rect on top of text to prevent selection cursor and to handle mouse events
         this._eventrect = this._group.rect(this.width, this.height).opacity(0);
         // register objects that should receive event notifications.
-        // for this widget, we want to know when the group or rect objects
-        // receive events
         this.registerEvent(this._eventrect);
     }
 
@@ -102,7 +99,7 @@ class Button extends Widget {
             this._text.text(this._input);
             let box: Box = this._text.bbox();
             this.width = box.width + 10;
-            this._rect.size(this.width, this.height);
+            this._rect.size(this.width, this.height).radius(10); // Ensure the radius is maintained on update
             this._eventrect.size(this.width, this.height);
         }
 

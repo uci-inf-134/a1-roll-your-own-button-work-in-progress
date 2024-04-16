@@ -19,7 +19,7 @@ let inputLabel = document.createElement('label');
 inputLabel.textContent = "Change Button Name:";
 inputLabel.style.position = 'absolute';
 inputLabel.style.left = '20px';
-inputLabel.style.top = '95px';  
+inputLabel.style.top = '105px';  
 inputLabel.style.color = 'black';
 inputLabel.style.fontSize = '14px';
 document.body.appendChild(inputLabel);
@@ -29,7 +29,7 @@ let inputElement = document.createElement('input');
 inputElement.type = 'text';
 inputElement.style.position = 'absolute';
 inputElement.style.left = '20px';
-inputElement.style.top = '115px';  
+inputElement.style.top = '125px';  
 inputElement.style.width = '150px';  
 document.body.appendChild(inputElement);
 
@@ -37,7 +37,7 @@ let submitButton = document.createElement('button');
 submitButton.textContent = "Update Button Label";
 submitButton.style.position = 'absolute';
 submitButton.style.left = '20px';
-submitButton.style.top = '145px';  
+submitButton.style.top = '150px';  
 submitButton.style.width = '150px';
 document.body.appendChild(submitButton);
 
