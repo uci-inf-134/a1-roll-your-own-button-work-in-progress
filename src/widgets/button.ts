@@ -62,8 +62,7 @@ class Button extends Widget{
     set heightSize(size:number)
     {
         this._rect.attr('height', size);
-        //this.update();
-        this.render();
+        this.update();
     }
 
     //get custom size
