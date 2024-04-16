@@ -143,10 +143,14 @@ class Button extends Widget {
         this._rect.fill('#1E90FF');
     }
     moveState(): void {
-        console.log("moveState");
+        this._rect.fill('#B0C4DE');
     }
     keyupState(keyEvent?: KeyboardEvent): void {
-        console.log("keyupState");
+        if (keyEvent && keyEvent.key === 'Enter') {
+            this.onClick(() => {
+                console.log("Button clicked via keyboard");
+            });
+        }
     }
 }
 
