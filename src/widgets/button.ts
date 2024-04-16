@@ -115,6 +115,7 @@ class Button extends Widget {
     pressReleaseState(): void {
         if (this.previousState instanceof PressedWidgetState)
             this.raise(new EventArgs(this));
+        this.hoverState();
     }
 
     //TODO: implement the onClick event using a callback passed as a parameter
