@@ -18,16 +18,17 @@ btn.move(12, 50);
 let inputLabel = document.createElement('label');
 inputLabel.textContent = "Change Button Name:";
 inputLabel.style.position = 'absolute';
-inputLabel.style.left = '12px';
+inputLabel.style.left = '20px';
 inputLabel.style.top = '95px';  
 inputLabel.style.color = 'black';
 inputLabel.style.fontSize = '14px';
 document.body.appendChild(inputLabel);
 
+
 let inputElement = document.createElement('input');
 inputElement.type = 'text';
 inputElement.style.position = 'absolute';
-inputElement.style.left = '12px';
+inputElement.style.left = '20px';
 inputElement.style.top = '115px';  
 inputElement.style.width = '150px';  
 document.body.appendChild(inputElement);
@@ -35,7 +36,7 @@ document.body.appendChild(inputElement);
 let submitButton = document.createElement('button');
 submitButton.textContent = "Update Button Label";
 submitButton.style.position = 'absolute';
-submitButton.style.left = '12px';
+submitButton.style.left = '20px';
 submitButton.style.top = '145px';  
 submitButton.style.width = '150px';
 document.body.appendChild(submitButton);
@@ -44,7 +45,7 @@ let btnResp = new Heading(w);
 btnResp.text = "No one has clicked me yet :(";
 btnResp.tabindex = 3;
 btnResp.fontSize = 14;
-btnResp.move(10, 180);  
+btnResp.move(8, 180);  
 
 let numClicks = 0;
 let f = function(event: any) {

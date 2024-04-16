@@ -6,6 +6,7 @@ import { Rect, Text, Box } from "../core/ui";
 
 class Button extends Widget {
     private _rect: Rect;
+    private _eventrect: Rect;
     private _text: Text;
     private _input: string;
     private _fontSize: number;
@@ -81,34 +82,40 @@ class Button extends Widget {
     render(): void {
         this._group = (this.parent as Window).window.group();
         this._rect = this._group.rect(this.width, this.height);
+        this._rect.fill("#ADD8E6");
         this._rect.stroke("black");
         this._text = this._group.text(this._input);
         // Set the outer svg element 
         this.outerSvg = this._group;
         // Add a transparent rect on top of text to 
         // prevent selection cursor and to handle mouse events
-        let eventrect = this._group.rect(this.width, this.height).opacity(0).attr('id', 0);
-
+        this._eventrect = this._group.rect(this.width, this.height).opacity(0);
         // register objects that should receive event notifications.
         // for this widget, we want to know when the group or rect objects
         // receive events
-        this.registerEvent(eventrect);
+        this.registerEvent(this._eventrect);
     }
 
     override update(): void {
-        if (this._text != null)
-            this._text.font('size', this._fontSize);
-        this._text.text(this._input);
+        if (this._text) {
+            this._text.font({ size: this._fontSize });
+            this._text.text(this._input);
+            let box: Box = this._text.bbox();
+            this.width = box.width + 10;
+            this._rect.size(this.width, this.height);
+            this._eventrect.size(this.width, this.height);
+        }
+
         this.positionText();
 
-        if (this._rect != null)
+        if (this._rect != null) {
             this._rect.fill(this.backcolor);
-
+        }
+        
         super.update();
     }
 
     pressReleaseState(): void {
-
         if (this.previousState instanceof PressedWidgetState)
             this.raise(new EventArgs(this));
     }
