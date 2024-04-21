@@ -12,10 +12,13 @@ class Button extends Widget {
     private _fontSize: number;
     private _text_x: number;
     private _text_y: number;
+    private _cornerRadius: number;
     private defaultText: string = "Button";
     private defaultFontSize: number = 20;
     private defaultWidth: number = 100;
     private defaultHeight: number = 40;
+    private defaultCornerRadius: number = 10;
+    private _minWidth = 0;
 
     private fontFamily:string = 'Helvetica';
 
@@ -26,6 +29,7 @@ class Button extends Widget {
         this.width = this.defaultWidth;
         this._input = this.defaultText;
         this._fontSize = this.defaultFontSize;
+        this._cornerRadius = this.defaultCornerRadius;
         // set Aria role
         this.role = RoleType.button;
         // render widget
@@ -53,11 +57,13 @@ class Button extends Widget {
     // custom size set
     set widthSize(size: number) {
         this._rect.attr('width', size);
+        this.width = size;
         this.update();
     }
 
     set heightSize(size: number) {
         this._rect.attr('height', size);
+        this.height = size;
         this.update();
     }
 
@@ -70,11 +76,17 @@ class Button extends Widget {
         return this.height;
     }
 
+    // set corner radius
+    set cornerRadius(radius: number) {
+        this._cornerRadius = radius;
+        this.update();
+    }
+
     private positionText() {
         let box: Box = this._text.bbox();
         // in TS, the prepending with + performs a type conversion from string to number
         this._text_y = (+this._rect.y() + ((+this._rect.height() / 2)) - (box.height / 2));
-        this._text.x(+this._rect.x() + 4);
+        this._text.x(+this._rect.x() + ((+this._rect.width() / 2)) - (box.width / 2));
         if (this._text_y > 0) {
             this._text.y(this._text_y);
         }
@@ -82,7 +94,7 @@ class Button extends Widget {
 
     render(): void {
         this._group = (this.parent as Window).window.group();
-        this._rect = this._group.rect(this.width, this.height).radius(10); // Set radius here for rounded corners
+        this._rect = this._group.rect(this.width, this.height).radius(this._cornerRadius); // Set radius here for rounded corners
         this._rect.fill("#ADD8E6");
         this._text = this._group.text(this._input);
         // Set the outer svg element 
@@ -99,8 +111,9 @@ class Button extends Widget {
             this._text.text(this._input);
             this._text.font('family', this.fontFamily);
             let box: Box = this._text.bbox();
-            this.width = box.width + 10;
-            this._rect.size(this.width, this.height).radius(10); // Ensure the radius is maintained on update
+            if (box.width > this.width) { this.width = box.width + 10; }
+            if (box.height > this.height) { this.height = box.height + 10; }
+            this._rect.size(this.width, this.height).radius(this._cornerRadius); // Ensure the radius is maintained on update
             this._eventrect.size(this.width, this.height);
         }
 

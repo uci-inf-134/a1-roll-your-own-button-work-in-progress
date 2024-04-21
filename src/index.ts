@@ -1,5 +1,6 @@
 import { Window } from "./core/ui"
 import { Button } from "./widgets/button"
+import { Listbox } from "./widgets/listbox";
 import { Heading } from "./widgets/heading"
 
 let w = new Window(window.innerHeight - 10, '100%');
@@ -62,3 +63,26 @@ submitButton.addEventListener('click', function() {
         btn.label = inputElement.value;  
     }
 });
+
+let listboxHeading = new Heading(w);
+listboxHeading.text = "I am currently feeling: Nothing";
+listboxHeading.fontSize = 16;
+listboxHeading.move(200, 20);
+
+let listbox = new Listbox(w);
+listbox.tabindex = 4;
+let optionArray = ["Happy :)", "Sad :(", "Neutral :|", "AAAAAAA"];
+for (let i = 0; i < optionArray.length; i++) {
+    let option = new Button(w);
+    let f = function(event: any) {
+        listbox.currentSelected = option.label;
+        listboxHeading.text = "I am currently feeling: " + option.label;
+    }
+    option.label = optionArray[i];
+    option.onClick(f);
+    listbox.addOption(option);
+}
+listbox.fontSize = 16;
+listbox.heightSize = 10;
+listbox.widthSize = 250;
+listbox.move(200, 50);
