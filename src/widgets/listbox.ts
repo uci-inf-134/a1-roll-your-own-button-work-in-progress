@@ -1,6 +1,6 @@
 // importing local code, code we have written
 import { Window, Widget, RoleType } from "../core/ui";
-import { IdleUpWidgetState, PressedWidgetState } from "../core/ui";
+import { IdleUpWidgetState } from "../core/ui";
 // importing code from SVG.js library
 import { Rect, Text, Box, Polygon } from "../core/ui";
 import { Button } from "./button";
