@@ -21,6 +21,14 @@ class Listbox extends Widget {
     private defaultText: string = "Please choose an option";
     private defaultFontSize: number = 20;
 
+    private _idleColor: string = "#B0C4DE";
+    private _hoverColor: string = "#1E90FF";
+    private _pressedColor: string = "#4682B4";
+    private _idleColor_arrow: string = "#FFFFFF";
+    private _hoverColor_arrow: string = "#FFFFFF";
+    private _pressedColor_arrow: string = "#DDDDDD";
+    private _textColor: string = "#000000";
+
     private fontFamily:string = 'Helvetica';
 
     constructor(parent:Window){
@@ -81,6 +89,20 @@ class Listbox extends Widget {
         this.fontFamily = font;
     }
 
+    // colors
+
+    set fill(hex:{ box?:string, hover?:string, pressed?:string, arrow?:string, arrow_hover?:string, arrow_pressed?:string, text?:string }) {
+        this._idleColor = hex.box ? hex.box : this._idleColor;
+        this._hoverColor = hex.hover ? hex.hover : this._hoverColor;
+        this._pressedColor = hex.pressed ? hex.pressed : this._pressedColor;
+        this._idleColor_arrow = hex.arrow ? hex.arrow : this._idleColor_arrow;
+        this._hoverColor_arrow = hex.arrow_hover ? hex.arrow_hover : this._hoverColor_arrow;
+        this._pressedColor_arrow = hex.arrow_pressed ? hex.arrow_pressed : this._pressedColor_arrow;
+        this._textColor = hex.text ? hex.text : this._textColor;
+        this.idleupState();
+        this.update();
+    }
+
     // Helpful Methods
 
     addOption(option:Button): void {
@@ -132,7 +154,7 @@ class Listbox extends Widget {
         // Update the text on the dropdown button
         if (this._text) {
             this._text.font({ size: this._fontSize });
-            this._text.text(this._currentSelected);
+            this._text.text(this._currentSelected).fill(this._textColor);
             this._text.font('family', this.fontFamily);
             let box: Box = this._text.bbox();
             if (box.height > this.height) { this.height = box.height + 10; }
@@ -156,31 +178,32 @@ class Listbox extends Widget {
     //TODO: give the states something to do! Use these methods to control the visual appearance of your
     //widget
     idleupState(): void {
-        this._rect.fill("#B0C4DE");
-        this._downarrow.fill("#FFFFFF");
+        this._rect.fill(this._idleColor);
+        this._downarrow.fill(this._idleColor_arrow);
     }
     idledownState(): void {
         this.update();
     }
     pressedState(): void {
-        this._rect.fill("#4682B4");
-        this._downarrow.fill("#DDDDDD");
+        this._rect.fill(this._pressedColor);
+        this._downarrow.fill(this._pressedColor_arrow);
     }
     pressReleaseState(): void {
         this._expanded = !this._expanded;
+        this._downarrow.rotate(180);
         this.update();
         this.hoverState();
     }
     hoverState(): void {
-        this._rect.fill("#1E90FF");
-        this._downarrow.fill("#FFFFFF");
+        this._rect.fill(this._hoverColor);
+        this._downarrow.fill(this._hoverColor_arrow);
     }
     hoverPressedState(): void {
         // throw new Error("Method not implemented.");
     }
     pressedoutState(): void {
-        this._rect.fill("#B0C4DE");
-        this._downarrow.fill("#FFFFFF");
+        this._rect.fill(this._idleColor);
+        this._downarrow.fill(this._idleColor_arrow);
     }
     moveState(): void {
         // throw new Error("Method not implemented.");
