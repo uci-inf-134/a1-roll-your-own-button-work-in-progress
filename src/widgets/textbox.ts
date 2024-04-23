@@ -17,7 +17,7 @@ class Textbox extends Widget {
     private _cursorPosition: number;
     private defaultWidth: number = 300;
     private defaultHeight: number = 30;
-    private defaultText: string = "Hello, World!";
+    private defaultText: string = "";
     private defaultFontSize: number = 16;
 
     private _fillColor: string = "#FFFFFF";
