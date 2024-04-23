@@ -2,6 +2,7 @@ import { Window } from "./core/ui"
 import { Button } from "./widgets/button"
 import { Listbox } from "./widgets/listbox";
 import { Heading } from "./widgets/heading"
+import { Textbox } from "./widgets/textbox";
 
 let w = new Window(window.innerHeight - 10, '100%');
 
@@ -86,3 +87,16 @@ listbox.fontSize = 16;
 listbox.heightSize = 10;
 listbox.widthSize = 250;
 listbox.move(200, 50);
+
+let textBoxHeading = new Heading(w);
+textBoxHeading.text = "This text box says: [ NOTHING ]";
+textBoxHeading.fontSize = 14;
+textBoxHeading.move(10, 230);
+
+let txt = new Textbox(w);
+txt.tabindex = 5;
+txt.move(10, 250);
+let j = function(event: any) {
+    textBoxHeading.text = "This text box says: " + txt.input;
+}
+txt.onChange(j);

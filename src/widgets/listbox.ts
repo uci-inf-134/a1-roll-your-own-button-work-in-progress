@@ -1,6 +1,6 @@
 // importing local code, code we have written
 import { Window, Widget, RoleType } from "../core/ui";
-import { IdleUpWidgetState } from "../core/ui";
+import { IdleUpWidgetState, EventArgs } from "../core/ui";
 // importing code from SVG.js library
 import { Rect, Text, Box, Polygon } from "../core/ui";
 import { Button } from "./button";
@@ -90,8 +90,7 @@ class Listbox extends Widget {
     }
 
     // colors
-
-    set fill(hex:{ box?:string, hover?:string, pressed?:string, arrow?:string, arrow_hover?:string, arrow_pressed?:string, text?:string }) {
+    set color(hex:{ box?:string, hover?:string, pressed?:string, arrow?:string, arrow_hover?:string, arrow_pressed?:string, text?:string }) {
         this._idleColor = hex.box ? hex.box : this._idleColor;
         this._hoverColor = hex.hover ? hex.hover : this._hoverColor;
         this._pressedColor = hex.pressed ? hex.pressed : this._pressedColor;
@@ -100,7 +99,6 @@ class Listbox extends Widget {
         this._pressedColor_arrow = hex.arrow_pressed ? hex.arrow_pressed : this._pressedColor_arrow;
         this._textColor = hex.text ? hex.text : this._textColor;
         this.idleupState();
-        this.update();
     }
 
     // Helpful Methods
@@ -118,6 +116,11 @@ class Listbox extends Widget {
         if (this._text_y > 0) {
             this._text.y(this._text_y);
         }
+    }
+
+    // Event
+    onChange(callback: { (event?: any): void }): void {
+        this.attach(callback);
     }
 
     render(): void {
@@ -173,6 +176,7 @@ class Listbox extends Widget {
         this.positionText();
         this._group.front();
         super.update();
+        this.raise(new EventArgs(this));
     }
 
     //TODO: give the states something to do! Use these methods to control the visual appearance of your
@@ -180,6 +184,7 @@ class Listbox extends Widget {
     idleupState(): void {
         this._rect.fill(this._idleColor);
         this._downarrow.fill(this._idleColor_arrow);
+        this.update();
     }
     idledownState(): void {
         this.update();
