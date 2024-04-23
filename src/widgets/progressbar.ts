@@ -17,9 +17,7 @@ class ProgressBar extends Widget {
     render(): void {
         this._group = (this.parent as Window).window.group();
         this.outerSvg = this._group;
-        
         this._rect = this._group.rect(this.width, this.height).fill('silver').opacity(0.3);
-        
         this._progressRect = this._group.rect(0, this.height).fill('blue');
     }
 
