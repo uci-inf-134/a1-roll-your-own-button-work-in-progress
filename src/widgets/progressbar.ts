@@ -26,7 +26,6 @@ class ProgressBar extends Widget {
         let width = (this.width * this._progress) / 100;  
         this._progressRect.width(width);  
     }
-
     
     setWidth(newWidth: number): void {
         this.width = newWidth;

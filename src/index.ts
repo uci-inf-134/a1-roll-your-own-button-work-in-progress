@@ -3,6 +3,7 @@ import { Button } from "./widgets/button"
 import { Listbox } from "./widgets/listbox";
 import { Heading } from "./widgets/heading";
 import { ProgressBar } from "./widgets/progressbar";
+import { Scrollbar } from "./widgets/scrollbar";
 
 let w = new Window(window.innerHeight - 10, '100%');
 
@@ -51,8 +52,6 @@ btn.move(12, 50);
 //     }
 // });
 
-
-
 let btnResp = new Heading(w);
 btnResp.text = "No one has clicked me yet :(";
 btnResp.tabindex = 3;
@@ -60,7 +59,7 @@ btnResp.fontSize = 14;
 btnResp.move(10, 100);  
 
 let numClicks = 0;
-let maxClicks = 10;  
+let maxClicks = 500;  
 
 let f = function(event: any) {
     numClicks++;
@@ -93,8 +92,18 @@ listbox.heightSize = 10;
 listbox.widthSize = 250;
 listbox.move(500, 50);
 
+let scrollbar = new Scrollbar(w, 20, 300);
+scrollbar.move(1000, 10);  
+scrollbar.render(); 
+
+let progressBarLabel = new Heading(w);
+progressBarLabel.text = "Progress Bar:";
+progressBarLabel.fontSize = 14;
+progressBarLabel.move(10, 120);
+
 let progressBar = new ProgressBar(w);  
 progressBar.setWidth(200);  
 progressBar.setHeight(20);        
-progressBar.move(10, 120);             
+progressBar.move(10, 140);             
 progressBar.updateProgress(50); 
+
