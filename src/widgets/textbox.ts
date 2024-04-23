@@ -258,6 +258,10 @@ class Textbox extends Widget {
                     this._input.substring(this._cursorPosition);
                 this.decrementCursor();
             }
+            else if (keyEvent && keyEvent.key === "Delete") {
+                this._input = this._input.substring(0, this._cursorPosition) +
+                    this._input.substring(this._cursorPosition+1);
+            }
             else if (keyEvent && keyEvent.key === "ArrowLeft") {
                 this.decrementCursor();
             }
