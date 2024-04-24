@@ -6,76 +6,41 @@ import { ProgressBar } from "./widgets/progressbar";
 import { Scrollbar } from "./widgets/scrollbar";
 import { Textbox } from "./widgets/textbox";
 
-
 let w = new Window(window.innerHeight - 10, '100%');
-
-let lbl1 = new Heading(w);
-lbl1.text = "Button Demo";
-lbl1.tabindex = 1;
-lbl1.fontSize = 16;
-lbl1.move(10, 20);
 
 let btn = new Button(w);
 btn.tabindex = 2;
 btn.widthSize = 100;
 btn.heightSize = 20;
 btn.fontSize = 14;
-btn.move(12, 50);
-
-// let inputLabel = document.createElement('label');
-// inputLabel.textContent = "Change Button Name:";
-// inputLabel.style.position = 'absolute';
-// inputLabel.style.left = '12px';
-// inputLabel.style.top = '95px';  
-// inputLabel.style.color = 'black';
-// inputLabel.style.fontSize = '14px';
-// document.body.appendChild(inputLabel);
-
-
-// let inputElement = document.createElement('input');
-// inputElement.type = 'text';
-// inputElement.style.position = 'absolute';
-// inputElement.style.left = '12px';
-// inputElement.style.top = '115px';  
-// inputElement.style.width = '150px';  
-// document.body.appendChild(inputElement);
-
-// let submitButton = document.createElement('button');
-// submitButton.textContent = "Update Button Label";
-// submitButton.style.position = 'absolute';
-// submitButton.style.left = '12px';
-// submitButton.style.top = '145px';  
-// submitButton.style.width = '150px';
-// document.body.appendChild(submitButton);
-
-// submitButton.addEventListener('click', function() {
-//     if (inputElement.value) {
-//         btn.label = inputElement.value;  
-//     }
-// });
+btn.move(100, 10);
 
 let btnResp = new Heading(w);
 btnResp.text = "No one has clicked me yet :(";
 btnResp.tabindex = 3;
 btnResp.fontSize = 14;
-btnResp.move(10, 100);  
+btnResp.move(100, 50);  
 
 let numClicks = 0;
 let maxClicks = 500;  
 
 let f = function(event: any) {
     numClicks++;
-    btnResp.text = "Clicked! x" + numClicks;
+    btnResp.text = "Clicked! x" + numClicks + "/500";
     let progress = (numClicks / maxClicks) * 100;
     progressBar.updateProgress(progress); 
 };
 btn.onClick(f);
 
+let progressBar = new ProgressBar(w);  
+progressBar.tabindex = 8;   
+progressBar.move(100, 76);            
+
 let listboxHeading = new Heading(w);
 listboxHeading.tabindex = 4;
 listboxHeading.text = "I am currently feeling: Nothing";
 listboxHeading.fontSize = 16;
-listboxHeading.move(500, 20);
+listboxHeading.move(500, 10);
 
 let listbox = new Listbox(w);
 listbox.tabindex = 5;
@@ -93,37 +58,20 @@ for (let i = 0; i < optionArray.length; i++) {
 listbox.fontSize = 16;
 listbox.heightSize = 10;
 listbox.widthSize = 250;
-listbox.move(500, 50);
+listbox.move(500, 30);
 
 let scrollbar = new Scrollbar(w, 20, 300);
 scrollbar.tabindex = 6;
-scrollbar.move(1000, 10);  
-scrollbar.render(); 
-
-let progressBarLabel = new Heading(w);
-progressBarLabel.tabindex = 7;
-progressBarLabel.text = "Progress Bar:";
-progressBarLabel.fontSize = 14;
-progressBarLabel.move(10, 120);
-
-let progressBar = new ProgressBar(w);  
-progressBar.tabindex = 8;
-progressBar.setWidth(200);  
-progressBar.setHeight(20);        
-progressBar.move(10, 140);             
-progressBar.updateProgress(50); 
-
-listbox.move(200, 50);
 
 let textBoxHeading = new Heading(w);
 textBoxHeading.tabindex = 9;
 textBoxHeading.text = "This text box says: [ NOTHING ]";
 textBoxHeading.fontSize = 14;
-textBoxHeading.move(10, 230);
+textBoxHeading.move(10, 430);
 
 let txt = new Textbox(w);
 txt.tabindex = 10;
-txt.move(10, 250);
+txt.move(10, 450);
 let j = function(event: any) {
     textBoxHeading.text = "This text box says: " + txt.input;
 }
