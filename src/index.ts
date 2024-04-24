@@ -1,7 +1,6 @@
-import {Window} from "./core/ui"
-import {Button} from "./widgets/button"
-import {Heading} from "./widgets/heading"
-
+import { Window } from "./core/ui"
+import { Button } from "./widgets/button"
+import { Heading } from "./widgets/heading"
 
 let w = new Window(window.innerHeight - 10, '100%');
 
@@ -26,6 +25,7 @@ inputLabel.style.top = '95px';
 inputLabel.style.color = 'black';
 inputLabel.style.fontSize = '14px';
 document.body.appendChild(inputLabel);
+
 
 let inputElement = document.createElement('input');
 inputElement.type = 'text';

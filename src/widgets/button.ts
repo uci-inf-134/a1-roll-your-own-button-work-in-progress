@@ -15,11 +15,9 @@ class Button extends Widget {
     private defaultText: string = "Button";
     private defaultFontSize: number = 20;
     private defaultWidth: number = 100;
-    private defaultHeight: number = 30;
+    private defaultHeight: number = 40;
 
     private fontFamily:string = 'Helvetica';
-
-
 
     constructor(parent: Window) {
         super(parent);
@@ -86,7 +84,6 @@ class Button extends Widget {
         this._group = (this.parent as Window).window.group();
         this._rect = this._group.rect(this.width, this.height).radius(10); // Set radius here for rounded corners
         this._rect.fill("#ADD8E6");
-        
         this._text = this._group.text(this._input);
         // Set the outer svg element 
         this.outerSvg = this._group;
@@ -119,6 +116,7 @@ class Button extends Widget {
     pressReleaseState(): void {
         if (this.previousState instanceof PressedWidgetState)
             this.raise(new EventArgs(this));
+        this.hoverState();
     }
 
     //TODO: implement the onClick event using a callback passed as a parameter
@@ -132,7 +130,7 @@ class Button extends Widget {
         this._rect.fill('#ADD8E6');
     }
     idledownState(): void {
-        this._rect.fill('#007BFF');
+        // this._rect.fill('#007BFF');
     }
     pressedState(): void {
         this._rect.fill('#0056B3');
