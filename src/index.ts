@@ -4,7 +4,6 @@ import { Listbox } from "./widgets/listbox";
 import { Heading } from "./widgets/heading";
 import { ProgressBar } from "./widgets/progressbar";
 import { Scrollbar } from "./widgets/scrollbar";
-import { Heading } from "./widgets/heading"
 import { Textbox } from "./widgets/textbox";
 
 
@@ -73,12 +72,13 @@ let f = function(event: any) {
 btn.onClick(f);
 
 let listboxHeading = new Heading(w);
+listboxHeading.tabindex = 4;
 listboxHeading.text = "I am currently feeling: Nothing";
 listboxHeading.fontSize = 16;
 listboxHeading.move(500, 20);
 
 let listbox = new Listbox(w);
-listbox.tabindex = 4;
+listbox.tabindex = 5;
 let optionArray = ["Happy :)", "Sad :(", "Neutral :|", "AAAAAAA"];
 for (let i = 0; i < optionArray.length; i++) {
     let option = new Button(w);
@@ -96,15 +96,18 @@ listbox.widthSize = 250;
 listbox.move(500, 50);
 
 let scrollbar = new Scrollbar(w, 20, 300);
+scrollbar.tabindex = 6;
 scrollbar.move(1000, 10);  
 scrollbar.render(); 
 
 let progressBarLabel = new Heading(w);
+progressBarLabel.tabindex = 7;
 progressBarLabel.text = "Progress Bar:";
 progressBarLabel.fontSize = 14;
 progressBarLabel.move(10, 120);
 
 let progressBar = new ProgressBar(w);  
+progressBar.tabindex = 8;
 progressBar.setWidth(200);  
 progressBar.setHeight(20);        
 progressBar.move(10, 140);             
@@ -113,12 +116,13 @@ progressBar.updateProgress(50);
 listbox.move(200, 50);
 
 let textBoxHeading = new Heading(w);
+textBoxHeading.tabindex = 9;
 textBoxHeading.text = "This text box says: [ NOTHING ]";
 textBoxHeading.fontSize = 14;
 textBoxHeading.move(10, 230);
 
 let txt = new Textbox(w);
-txt.tabindex = 5;
+txt.tabindex = 10;
 txt.move(10, 250);
 let j = function(event: any) {
     textBoxHeading.text = "This text box says: " + txt.input;
