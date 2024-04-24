@@ -4,6 +4,9 @@ import { Listbox } from "./widgets/listbox";
 import { Heading } from "./widgets/heading";
 import { ProgressBar } from "./widgets/progressbar";
 import { Scrollbar } from "./widgets/scrollbar";
+import { Heading } from "./widgets/heading"
+import { Textbox } from "./widgets/textbox";
+
 
 let w = new Window(window.innerHeight - 10, '100%');
 
@@ -107,3 +110,17 @@ progressBar.setHeight(20);
 progressBar.move(10, 140);             
 progressBar.updateProgress(50); 
 
+listbox.move(200, 50);
+
+let textBoxHeading = new Heading(w);
+textBoxHeading.text = "This text box says: [ NOTHING ]";
+textBoxHeading.fontSize = 14;
+textBoxHeading.move(10, 230);
+
+let txt = new Textbox(w);
+txt.tabindex = 5;
+txt.move(10, 250);
+let j = function(event: any) {
+    textBoxHeading.text = "This text box says: " + txt.input;
+}
+txt.onChange(j);
