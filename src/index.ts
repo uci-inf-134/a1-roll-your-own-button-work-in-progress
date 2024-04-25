@@ -37,13 +37,18 @@ btn.onClick(f);
 let progressBar = new ProgressBar(w, 300, 20);
 progressBar.tabindex = 8;
 progressBar.move(80, 100);
+progressBar.setWidth(400); // req 1
+progressBar.increment = 7; // req 2
+progressBar.getIncrement(); // req 3
+progressBar.incrementProgress(50); // req 4
 
+// activate req 5 & 6 by clicking on these two buttons
 let incrementBtn = new Button(w);
 incrementBtn.tabindex = 9;
 incrementBtn.move(220, 120);
 incrementBtn.label = "+";  
 incrementBtn.onClick((event: MouseEvent) => {
-    progressBar.incrementProgress(10);  
+    progressBar.incrementProgress(progressBar.increment);  
 });
 
 let decrementBtn = new Button(w);
@@ -51,7 +56,7 @@ decrementBtn.tabindex = 10;
 decrementBtn.move(80, 120);
 decrementBtn.label = "-";  
 decrementBtn.onClick((event: MouseEvent) => {
-    progressBar.incrementProgress(-10);  
+    progressBar.incrementProgress(-progressBar.increment);  
 });
 
 let progressUpdateHeading = new Heading(w);
@@ -97,16 +102,20 @@ listbox.widthSize = 250;
 listbox.move(500, 30);
 
 let scrollbar = new Scrollbar(w, 20, 300);
+scrollbar.setHeight(400); // req 3
+scrollbar.getPosition(); // req 4
 scrollbar.tabindex = 6;
+// scroll or click through the scrollbar for req 5
 scrollbar.on('scroll', (event: ScrollEvent) => {
     scrollbarResp.text = `Moved ${event.direction} by ${event.position.toFixed(1)}%`;
 });
+
 
 let scrollbarResp = new Heading(w);
 scrollbarResp.text = "Scrollbar :]";
 scrollbarResp.tabindex = 11;
 scrollbarResp.fontSize = 14;
-scrollbarResp.move(4, 320);
+scrollbarResp.move(22, 280);
 
 let textBoxHeading = new Heading(w);
 textBoxHeading.tabindex = 9;

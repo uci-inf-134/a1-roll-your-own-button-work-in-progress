@@ -38,8 +38,8 @@ class ProgressBar extends Widget {
         this.emit('progress', { value: this._progress });
     }
 
+    // requirement 4 & 5
     incrementProgress(value: number): void {
-        let oldProgress = this._progress;
         let newProgress = this._progress + value;
     
         if (newProgress < 0) {
@@ -51,8 +51,10 @@ class ProgressBar extends Widget {
         this.updateProgress(newProgress);
     
         if (value > 0) {
+            console.log('Incremented by ' + value);
             this.emit('stateChange', { newState: 'incremented', increment: value, newProgress: newProgress });
         } else if (value < 0) {
+            console.log('Decremented by ' + value);
             this.emit('stateChange', { newState: 'decremented', decrement: value, newProgress: newProgress });
         }
     }
@@ -70,9 +72,11 @@ class ProgressBar extends Widget {
         this.positionText();  
     }
 
+    // requirement 1
     setWidth(newWidth: number): void {
         this.width = newWidth;
         this._rect.width(this.width);
+        console.log('The new progress bar width is ' + this.width);
         this.updateProgress(this._progress);
     }
 
@@ -82,15 +86,32 @@ class ProgressBar extends Widget {
         this.updateProgress(this._progress);
     }
 
+    getWidth(): number {
+        console.log('The width is ' + this.width);
+        return this.width;
+    }
+
+    getHeight(): number {
+        return this.height;
+    }
+
+    getIncrement(): number {
+        return this.increment;
+    }
+
+    // requirement 2
     set increment(value: number) {
         if (value < 0 || value > 100) {
             console.error("invalid.");
             return;
         }
         this._increment = value;
+        console.log('Increment value: ' + this._increment);
     }
 
+    // requirement 3
     get increment(): number {
+        console.log('Increment value: ' + this._increment);
         return this._increment;
     }
 
@@ -122,11 +143,13 @@ class ProgressBar extends Widget {
         this._listeners[event].push(listener);
     }
 
+    // requirement 6
     private emit(event: string, data: any): void {
         if (this._listeners[event]) {
             this._listeners[event].forEach(listener => listener(data));
         }
     }
+
     idleupState(): void {}
     idledownState(): void {}
     pressedState(): void {}
