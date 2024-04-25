@@ -69,7 +69,7 @@ progressBar.on('progress', (event: { value: number }) => {
 });
 
 progressBar.on('stateChange', (event: { newState: string, details: any }) => {
-    stateChangeHeading.text = `State changed: ${event.newState}`;
+    stateChangeHeading.text = `${event.newState}`;
 });           
 
 let listboxHeading = new Heading(w);
