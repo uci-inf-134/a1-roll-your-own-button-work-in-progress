@@ -102,7 +102,7 @@ class Scrollbar extends Widget {
     }
 
     getHeight(): number {
-        console.log('Height: ' + this.height);
+        console.log('Height of SCROLLBAR: ' + this.height);
         return this.height;
     }
 
@@ -117,7 +117,8 @@ class Scrollbar extends Widget {
     }
 
     // requirement 4
-    get position(): number {
+    getPosition(): number {
+        console.log('SCROLLBAR Retrieved position of ' + this._scrollPosition);
         return this._scrollPosition;
     }
 
@@ -152,7 +153,6 @@ class Scrollbar extends Widget {
 
     attachSliderEventListeners(): void {
         this._sliderRect.on('mousedown', (event: MouseEvent) => this.startDrag(event));
-        console.log("Drag event listeners reattached to the slider.");
     }
 
     attachEventListeners(): void {
