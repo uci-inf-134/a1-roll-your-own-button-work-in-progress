@@ -2,6 +2,7 @@ import { Window } from "./core/ui"
 import { Button } from "./widgets/button"
 import { Checkbox } from "./widgets/checkbox";
 import { Heading } from "./widgets/heading"
+import { RadioButton } from "./widgets/radioButton";
 
 let w = new Window(window.innerHeight - 10, '100%');
 
@@ -66,5 +67,10 @@ submitButton.addEventListener('click', function() {
 
 let checkBox = new Checkbox(w);
 checkBox.tabindex = 4;
-//checkBox.label = "checkbox";
-checkBox.move(200, 200);
+checkBox.label = "boxy";
+checkBox.move(20, 200);
+
+let radio = new RadioButton(w);
+radio.tabindex = 5;
+radio.label = "circlely";
+radio.move (20, 250);
