@@ -38,7 +38,7 @@ class ProgressBar extends Widget {
         this.emit('progress', { value: this._progress });
     }
 
-    // requirement 5
+    // requirement 4 & 5
     incrementProgress(value: number): void {
         let newProgress = this._progress + value;
     
@@ -76,7 +76,7 @@ class ProgressBar extends Widget {
     setWidth(newWidth: number): void {
         this.width = newWidth;
         this._rect.width(this.width);
-        console.log('The new width is ' + this.width);
+        console.log('The new progress bar width is ' + this.width);
         this.updateProgress(this._progress);
     }
 
@@ -93,6 +93,10 @@ class ProgressBar extends Widget {
 
     getHeight(): number {
         return this.height;
+    }
+
+    getIncrement(): number {
+        return this.increment;
     }
 
     // requirement 2
@@ -130,18 +134,6 @@ class ProgressBar extends Widget {
     set backgroundColor(color: string) {
         this._backgroundColor = color;
         this._rect.fill(color);
-    }
-
-    // requirement 4
-    customIncrement(value: number): void {
-        this._progress += value;
-        if (this._progress > 100) {
-            this._progress = 100;
-        } else if (this._progress < 0) {
-            this._progress = 0;
-        }
-        this.updateProgress(this._progress);  
-        console.log('New progress after increment: ' + this._progress);
     }
 
     on(event: string, listener: Function): void {
