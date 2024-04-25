@@ -1,5 +1,6 @@
 import { Window } from "./core/ui"
 import { Button } from "./widgets/button"
+import { Checkbox } from "./widgets/checkbox";
 import { Heading } from "./widgets/heading"
 
 let w = new Window(window.innerHeight - 10, '100%');
@@ -62,3 +63,8 @@ submitButton.addEventListener('click', function() {
         btn.label = inputElement.value;  
     }
 });
+
+let checkBox = new Checkbox(w);
+checkBox.tabindex = 4;
+//checkBox.label = "checkbox";
+checkBox.move(200, 200);
