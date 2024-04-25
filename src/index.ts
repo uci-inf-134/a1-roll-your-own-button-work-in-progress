@@ -99,13 +99,14 @@ listbox.move(500, 30);
 let scrollbar = new Scrollbar(w, 20, 300);
 scrollbar.tabindex = 6;
 scrollbar.on('scroll', (event: ScrollEvent) => {
-    scrollbarResp.text = `Scrollbar moved ${event.direction} to position ${event.position}%`;
+    scrollbarResp.text = `Moved ${event.direction} by ${event.position.toFixed(1)}%`;
 });
 
 let scrollbarResp = new Heading(w);
+scrollbarResp.text = "Scrollbar :]";
 scrollbarResp.tabindex = 11;
 scrollbarResp.fontSize = 14;
-scrollbarResp.move(4, 340);
+scrollbarResp.move(4, 320);
 
 let textBoxHeading = new Heading(w);
 textBoxHeading.tabindex = 9;
