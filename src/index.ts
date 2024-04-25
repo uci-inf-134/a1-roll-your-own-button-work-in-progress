@@ -6,6 +6,11 @@ import { ProgressBar } from "./widgets/progressbar";
 import { Scrollbar } from "./widgets/scrollbar";
 import { Textbox } from "./widgets/textbox";
 
+interface ScrollEvent {
+    direction: string;
+    position: number;
+}
+
 let w = new Window(window.innerHeight - 10, '100%');
 
 let btn = new Button(w);
@@ -22,19 +27,50 @@ btnResp.fontSize = 14;
 btnResp.move(100, 50);  
 
 let numClicks = 0;
-let maxClicks = 500;  
 
 let f = function(event: any) {
     numClicks++;
     btnResp.text = "Clicked! x" + numClicks + "/500";
-    let progress = (numClicks / maxClicks) * 100;
-    progressBar.updateProgress(progress); 
 };
 btn.onClick(f);
 
-let progressBar = new ProgressBar(w);  
-progressBar.tabindex = 8;   
-progressBar.move(100, 76);            
+let progressBar = new ProgressBar(w, 300, 20);
+progressBar.tabindex = 8;
+progressBar.move(80, 100);
+
+let incrementBtn = new Button(w);
+incrementBtn.tabindex = 9;
+incrementBtn.move(220, 120);
+incrementBtn.label = "+";  
+incrementBtn.onClick((event: MouseEvent) => {
+    progressBar.incrementProgress(10);  
+});
+
+let decrementBtn = new Button(w);
+decrementBtn.tabindex = 10;
+decrementBtn.move(80, 120);
+decrementBtn.label = "-";  
+decrementBtn.onClick((event: MouseEvent) => {
+    progressBar.incrementProgress(-10);  
+});
+
+let progressUpdateHeading = new Heading(w);
+progressUpdateHeading.tabindex = 10;
+progressUpdateHeading.text = "Progress: 0%";
+progressUpdateHeading.move(80, 180);
+
+let stateChangeHeading = new Heading(w);
+stateChangeHeading.tabindex = 11;
+stateChangeHeading.text = "No changes yet.";
+stateChangeHeading.move(80, 210);
+
+progressBar.on('progress', (event: { value: number }) => {
+    progressUpdateHeading.text = `Progress: ${event.value}%`;
+});
+
+progressBar.on('stateChange', (event: { newState: string, details: any }) => {
+    stateChangeHeading.text = `State changed: ${event.newState}`;
+});           
 
 let listboxHeading = new Heading(w);
 listboxHeading.tabindex = 4;
@@ -62,6 +98,14 @@ listbox.move(500, 30);
 
 let scrollbar = new Scrollbar(w, 20, 300);
 scrollbar.tabindex = 6;
+scrollbar.on('scroll', (event: ScrollEvent) => {
+    scrollbarResp.text = `Scrollbar moved ${event.direction} to position ${event.position}%`;
+});
+
+let scrollbarResp = new Heading(w);
+scrollbarResp.tabindex = 11;
+scrollbarResp.fontSize = 14;
+scrollbarResp.move(4, 340);
 
 let textBoxHeading = new Heading(w);
 textBoxHeading.tabindex = 9;
