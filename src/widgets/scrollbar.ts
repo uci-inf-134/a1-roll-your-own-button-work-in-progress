@@ -10,12 +10,12 @@ class Scrollbar extends Widget {
     private _contentHeight: number;
     private _isDragging: boolean = false;
     private _startY: number = 0;
-
     private _idleColor: string = "#FFFFFF";
     private _sliderColor: string = "#4682B4";
     private _contentColor: string = "lightgrey";
     private _hoverColor: string = "#A9A9A9"; 
     private _pressedColor: string = "#696969"; 
+    private _listeners: { [event: string]: Function[] } = {};
 
     constructor(parent: Window, width: number = 20, height: number = 200, contentHeight: number = 1000) {
         super(parent);
@@ -43,7 +43,6 @@ class Scrollbar extends Widget {
     createArrows(): void {
         this._upArrow = this._group.polygon('0,10 10,0 20,10').fill('#000').move(this.width / 2 - 10, 0);
         this._upArrow.click(() => this.moveSlider(-10));
-
         this._downArrow = this._group.polygon('0,0 10,10 20,0').fill('#000').move(this.width / 2 - 10, this.height - 10);
         this._downArrow.click(() => this.moveSlider(10));
     }
@@ -54,11 +53,14 @@ class Scrollbar extends Widget {
     }
 
     updateScrollPosition(scrollPosition: number): void {
+        let oldPosition = this._scrollPosition;
         this._scrollPosition = Math.max(0, Math.min(scrollPosition, 100));
         let sliderHeight = this._sliderRect.height() as number;
         let maxSliderTop = this.height - sliderHeight;
         let sliderTop = (maxSliderTop * this._scrollPosition) / 100;
         this._sliderRect.y(Math.max(0, Math.min(sliderTop, maxSliderTop)));
+        let direction = this._scrollPosition > oldPosition ? 'down' : 'up';
+        this.emit('scroll', { position: this._scrollPosition, direction: direction });
     }
 
     move(x: number, y: number): void {
@@ -147,6 +149,19 @@ class Scrollbar extends Widget {
     moveState(): void {}
     
     keyupState(): void {}
+
+    on(event: string, listener: Function): void {
+        if (!this._listeners[event]) {
+            this._listeners[event] = [];
+        }
+        this._listeners[event].push(listener);
+    }
+
+    private emit(event: string, data: any): void {
+        if (this._listeners[event]) {
+            this._listeners[event].forEach(listener => listener(data));
+        }
+    }
 }
 
 export { Scrollbar };
