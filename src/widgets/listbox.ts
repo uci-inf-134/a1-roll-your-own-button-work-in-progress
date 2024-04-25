@@ -87,6 +87,7 @@ class Listbox extends Widget {
 
     set font(font:string) {
         this.fontFamily = font;
+        this.update();
     }
 
     // colors
@@ -175,8 +176,8 @@ class Listbox extends Widget {
         
         this.positionText();
         this._group.front();
-        super.update();
         this.raise(new EventArgs(this));
+        super.update();
     }
 
     //TODO: give the states something to do! Use these methods to control the visual appearance of your
