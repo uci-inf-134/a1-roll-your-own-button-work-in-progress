@@ -84,7 +84,7 @@ class ProgressBar extends Widget {
 
     set increment(value: number) {
         if (value < 0 || value > 100) {
-            console.error("Invalid increment value. Value should be between 0 and 100.");
+            console.error("invalid.");
             return;
         }
         this._increment = value;
