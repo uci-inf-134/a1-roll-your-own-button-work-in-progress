@@ -21,13 +21,13 @@ class Listbox extends Widget {
     private defaultText: string = "Please choose an option";
     private defaultFontSize: number = 20;
 
-    private _idleColor: string = "#B0C4DE";
+    private _idleColor: string = "#4682B4";
     private _hoverColor: string = "#1E90FF";
     private _pressedColor: string = "#4682B4";
     private _idleColor_arrow: string = "#FFFFFF";
     private _hoverColor_arrow: string = "#FFFFFF";
     private _pressedColor_arrow: string = "#DDDDDD";
-    private _textColor: string = "#000000";
+    private _textColor: string = "#FFFFFF";
 
     private fontFamily:string = 'Helvetica';
 

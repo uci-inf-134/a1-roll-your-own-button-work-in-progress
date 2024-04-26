@@ -13,30 +13,36 @@ interface ScrollEvent {
 
 let w = new Window(window.innerHeight - 10, '100%');
 
+let title = new Heading(w);
+title.text = "Team WORK IN PROGRESS: Toolkit";
+title.fontSize = 28;
+title.move(100, 30);
+
+// Button Widget
 let btn = new Button(w);
 btn.tabindex = 2;
 btn.widthSize = 100;
 btn.heightSize = 20;
 btn.fontSize = 14;
-btn.move(100, 10);
+btn.move(100, 100);
 
 let btnResp = new Heading(w);
 btnResp.text = "No one has clicked me yet :(";
 btnResp.tabindex = 3;
-btnResp.fontSize = 14;
-btnResp.move(100, 50);  
+btnResp.fontSize = 16;
+btnResp.move(100, 140);
 
 let numClicks = 0;
-
 let f = function(event: any) {
     numClicks++;
-    btnResp.text = "Clicked! x" + numClicks + "/500";
+    btnResp.text = "Clicked! x" + numClicks;
 };
 btn.onClick(f);
 
+// Progress Bar Widget
 let progressBar = new ProgressBar(w, 300, 20);
 progressBar.tabindex = 8;
-progressBar.move(80, 100);
+progressBar.move(100, 300);
 progressBar.setWidth(400); // req 1
 progressBar.increment = 7; // req 2
 progressBar.getIncrement(); // req 3
@@ -45,7 +51,7 @@ progressBar.incrementProgress(50); // req 4
 // activate req 5 & 6 by clicking on these two buttons
 let incrementBtn = new Button(w);
 incrementBtn.tabindex = 9;
-incrementBtn.move(220, 120);
+incrementBtn.move(220, 350);
 incrementBtn.label = "+";  
 incrementBtn.onClick((event: MouseEvent) => {
     progressBar.incrementProgress(progressBar.increment);  
@@ -53,7 +59,7 @@ incrementBtn.onClick((event: MouseEvent) => {
 
 let decrementBtn = new Button(w);
 decrementBtn.tabindex = 10;
-decrementBtn.move(80, 120);
+decrementBtn.move(100, 350);
 decrementBtn.label = "-";  
 decrementBtn.onClick((event: MouseEvent) => {
     progressBar.incrementProgress(-progressBar.increment);  
@@ -62,12 +68,12 @@ decrementBtn.onClick((event: MouseEvent) => {
 let progressUpdateHeading = new Heading(w);
 progressUpdateHeading.tabindex = 10;
 progressUpdateHeading.text = "Progress: 0%";
-progressUpdateHeading.move(80, 180);
+progressUpdateHeading.move(100, 330);
 
 let stateChangeHeading = new Heading(w);
 stateChangeHeading.tabindex = 11;
 stateChangeHeading.text = "No changes yet.";
-stateChangeHeading.move(80, 210);
+stateChangeHeading.move(400, 330);
 
 progressBar.on('progress', (event: { value: number }) => {
     progressUpdateHeading.text = `Progress: ${event.value}%`;
@@ -75,13 +81,14 @@ progressBar.on('progress', (event: { value: number }) => {
 
 progressBar.on('stateChange', (event: { newState: string, details: any }) => {
     stateChangeHeading.text = `${event.newState}`;
-});           
+});
 
+// Listbox Widget
 let listboxHeading = new Heading(w);
 listboxHeading.tabindex = 4;
 listboxHeading.text = "I am currently feeling: Nothing";
 listboxHeading.fontSize = 16;
-listboxHeading.move(500, 10);
+listboxHeading.move(600, 100);
 
 let listbox = new Listbox(w);
 listbox.tabindex = 5;
@@ -99,10 +106,11 @@ for (let i = 0; i < optionArray.length; i++) {
 listbox.fontSize = 16;
 listbox.heightSize = 10;
 listbox.widthSize = 250;
-listbox.move(500, 30);
+listbox.move(600, 120);
 
+// Scrollbar Widget
 let scrollbar = new Scrollbar(w, 20, 300);
-scrollbar.setHeight(400); // req 3
+scrollbar.setHeight(500); // req 3
 scrollbar.getPosition(); // req 4
 scrollbar.tabindex = 6;
 // scroll or click through the scrollbar for req 5
@@ -110,23 +118,24 @@ scrollbar.on('scroll', (event: ScrollEvent) => {
     scrollbarResp.text = `Moved ${event.direction} by ${event.position.toFixed(1)}%`;
 });
 
-
 let scrollbarResp = new Heading(w);
 scrollbarResp.text = "Scrollbar :]";
 scrollbarResp.tabindex = 11;
 scrollbarResp.fontSize = 14;
-scrollbarResp.move(22, 280);
+scrollbarResp.move(22, 450);
 
-let textBoxHeading = new Heading(w);
-textBoxHeading.tabindex = 9;
-textBoxHeading.text = "This text box says: [ NOTHING ]";
-textBoxHeading.fontSize = 14;
-textBoxHeading.move(10, 430);
+// Textbox Widget
 
 let txt = new Textbox(w);
-txt.tabindex = 10;
-txt.move(10, 450);
+txt.tabindex = 9;
+txt.move(600, 300);
 let j = function(event: any) {
     textBoxHeading.text = "This text box says: " + txt.input;
 }
 txt.onChange(j);
+
+let textBoxHeading = new Heading(w);
+textBoxHeading.tabindex = 10;
+textBoxHeading.text = "This text box says: [ NOTHING ]";
+textBoxHeading.fontSize = 14;
+textBoxHeading.move(600, 340);
