@@ -1,26 +1,35 @@
 // importing local code, code we have written
-import { Polyline } from "@svgdotjs/svg.js";
-import {Window, Widget, RoleType, IdleUpWidgetState, Circle} from "../core/ui";
+import {Window, Widget, RoleType, IdleUpWidgetState, EventArgs, Circle} from "../core/ui";
 // importing code from SVG.js library
 import {Rect, Text, Box} from "../core/ui";
+import { RadioButtonHandler } from "./radioButtonHandler";
 
-class RadioButton extends Widget{
-    private _circ: Circle;
+class SingleRadioButton extends Widget{
+    private _circle: Circle;
     private _eventrect: Rect;
+
 
     private _text: Text;
     private _input: string;
     private _fontsize: number;
     private defaultWidth: number = 20;
     private defaultHeight: number = 20;
-    private defaultText: string = "radio button";
+
+    private defaultText: string = "radioButton";
     private defaultFontSize: number = 20;
     private _text_x: number;
     private _text_y: number;
     private fontFamily: string = "Helvetica";
 
     public checked = false;
-    private _checkmark: Polyline;
+    private _fillMark: Circle;
+    
+    //colors
+    private _defaultBorder:string = '#000000';
+    private _defaultFill: string = '#FFFFFF';
+    private _defaultHover: string = '#ADD8E6';
+    private _handler: RadioButtonHandler;
+
 
     private textBox: Box;
     constructor(parent:Window){
@@ -43,24 +52,28 @@ class RadioButton extends Widget{
         return this._input;
     }
 
+    set handler(rbh: RadioButtonHandler){
+        this._handler = rbh;
+    }
+
     set label(label: string){
         this._input = label;
         this.update();
     }
 
     set fontSize(size: number) {
-        this.fontSize = size;
+        this._fontsize = size;
         this.update();
     }
 
     // custom size set
     set widthSize(size: number) {
-        this._circ.attr('width', size);
+        this._circle.attr('width', size);
         this.update();
     }
 
     set heightSize(size: number) {
-        this._circ.attr('height', size);
+        this._circle.attr('height', size);
         this.update();
     }
 
@@ -73,11 +86,22 @@ class RadioButton extends Widget{
         return this.height;
     }
 
+    get isChecked()
+    {
+        return this.checked;
+    }
+
+    uncheck(): void
+    {
+        this.checked = false;
+        this.update();
+    }
+
     private positionText() {
         this.textBox = this._text.bbox();
         // in TS, the prepending with + performs a type conversion from string to number
-        this._text_y = (+this._circ.y() + ((+this._circ.height() / 2)) - (this.textBox.height / 2));
-        this._text.x(+this._circ.x() + this.width + 4);
+        this._text_y = (+this._circle.y() + ((+this._circle.height() / 2)) - (this.textBox.height / 2));
+        this._text.x(+this._circle.x() + this.width + 4);
         if (this._text_y > 0) {
             this._text.y(this._text_y);
         }
@@ -86,12 +110,13 @@ class RadioButton extends Widget{
     render(): void {
         // creating checkbox
         this._group = (this.parent as Window).window.group();
-        this._circ = this._group.circle(this.width, this.height);
-        this._text = this._group.text(this._input);
-        this._circ.stroke('#000000'); //outline
-        this._circ.fill('#FFFFFF') // white on the inside
 
-        this._checkmark = this._group.polyline('0,0 6,6 12,-8').fill('none').stroke({ width: 3, color: '#000000' });
+        this._circle = this._group.circle(this.width, this.height);
+        this._text = this._group.text(this._input);
+        this._circle.stroke(this._defaultBorder); //outline
+        this._circle.fill(this._defaultFill) // white on the inside
+
+        this._fillMark = this._group.circle(this.width - 5, this.height).fill(this._defaultBorder).stroke({ width: 3, color: '#000000' });
 
         // Set the outer svg element 
         this.outerSvg = this._group;
@@ -108,30 +133,31 @@ class RadioButton extends Widget{
     }
 
     override update(): void {
+
         if (this._text) {
             this._text.font({ size: this._fontsize});
             this._text.text(this._input);
             this._text.font('family', this.fontFamily);
-            this._circ.size(this.width, this.height); 
+            this._circle.size(this.width, this.height); 
             this._eventrect.size(this.width, this.height);
            
 
             if(this.checked)
             {
-                let checkmarkX = +this._circ.x() + 3;
-                let checkmarkY = +this._circ.y() -4;
-                this._checkmark.size(16 * (this.height / this.defaultHeight)).move(checkmarkX, checkmarkY);
-                this._checkmark.opacity(1);
+                let circleX = +this._circle.x() + 5;
+                let circleY = +this._circle.y() + 5;
+                this._fillMark.size(10* (this.height / this.defaultHeight)).move(circleX, circleY);
+                this._fillMark.opacity(1);
             }
             else{
-                this._checkmark.opacity(0);
+                this._fillMark.opacity(0);
             }
         }
 
         this.positionText();
 
-        if (this._circ != null) {
-            this._circ.fill(this.backcolor);
+        if (this._circle != null) {
+            this._circle.fill(this.backcolor);
         }
         
         super.update();
@@ -144,53 +170,64 @@ class RadioButton extends Widget{
     }
     
     idleupState(): void {
-       this._circ.stroke('#000000');
+       this._circle.stroke(this._defaultBorder);
        if(this.checked)
         {
-            this._checkmark.stroke({ width: 3, color: '#000000'})
+            this._fillMark.stroke({ width: 3, color: this._defaultBorder})
         }
     }
     idledownState(): void {
-        this._circ.stroke('#000000')
+        this._circle.stroke(this._defaultBorder)
         if(this.checked)
         {
-            this._checkmark.stroke({ width: 3, color: '#000000'})
+            this._fillMark.stroke({ width: 3, color: this._defaultBorder})
         }
     }
     pressedState(): void {
-        // add check
+        
+        
+        this._circle.fill('#87CEFA');
+       
+       
+    }
+    pressReleaseState(): void {
+        
         if(this.checked)
         {
             this.checked = false;
+            this.raise(new EventArgs((this)));
         }
         else
         {
             this.checked = true;
+            if(this._handler){
+                console.log("unfill")
+                this._handler.unfillAllExceptSelected(this.label);
+            }
+            this.raise(new EventArgs((this)));
         }
-        
-        this._circ.stroke('#ADD8E6');
         this.update();
+        
        
-    }
-    pressReleaseState(): void {
-        this._circ.stroke('#000000')
+        this._circle.stroke('#000000')
+        this._circle.fill('#FFFFFF');
     } 
     hoverState(): void {
-        this._circ.stroke('#ADD8E6')
+        this._circle.stroke('#ADD8E6')
         if(this.checked)
         {
-            this._checkmark.stroke({ width: 3, color: '#ADD8E6'});
+            this._fillMark.stroke({ width: 3, color: '#ADD8E6'});
         }
     }
     hoverPressedState(): void {
-        this._circ.stroke('#ADD8E6')
+        this._circle.stroke('#ADD8E6')
         if(this.checked)
         {
-            this._checkmark.stroke({ width: 3, color: '#ADD8E6'});
+            this._fillMark.stroke({ width: 3, color: '#ADD8E6'});
         }
     }
     pressedoutState(): void {
-        this._circ.stroke('#ADD8E6');
+        this._circle.stroke('#ADD8E6');
         if(this.checked)
         {
             this.checked = false;
@@ -202,7 +239,7 @@ class RadioButton extends Widget{
             
     }
     moveState(): void {
-        this._circ.stroke('#B0C4DE');
+        this._circle.stroke('#B0C4DE');
     }
     keyupState(keyEvent?: KeyboardEvent): void {
         if(keyEvent && keyEvent.key == 'Enter')
@@ -214,4 +251,4 @@ class RadioButton extends Widget{
     }
 }
 
-export {RadioButton}
+export {SingleRadioButton}

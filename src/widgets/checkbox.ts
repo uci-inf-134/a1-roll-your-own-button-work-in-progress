@@ -1,6 +1,6 @@
 // importing local code, code we have written
 import { Polyline } from "@svgdotjs/svg.js";
-import {Window, Widget, RoleType, IdleUpWidgetState} from "../core/ui";
+import {Window, Widget, RoleType, IdleUpWidgetState, EventArgs} from "../core/ui";
 // importing code from SVG.js library
 import {Rect, Text, Box} from "../core/ui";
 
@@ -13,6 +13,9 @@ class Checkbox extends Widget{
     private _fontsize: number;
     private defaultWidth: number = 20;
     private defaultHeight: number = 20;
+    private radius = 0;
+
+
     private defaultText: string = "checkbox";
     private defaultFontSize: number = 20;
     private _text_x: number;
@@ -21,6 +24,12 @@ class Checkbox extends Widget{
 
     public checked = false;
     private _checkmark: Polyline;
+
+    //colors
+    private _defaultBorder:string = '#000000';
+    private _defaultFill: string = '#FFFFFF';
+    private _defaultHover: string = '#ADD8E6';
+
 
     private textBox: Box;
     constructor(parent:Window){
@@ -49,7 +58,7 @@ class Checkbox extends Widget{
     }
 
     set fontSize(size: number) {
-        this.fontSize = size;
+        this._fontsize = size;
         this.update();
     }
 
@@ -73,6 +82,23 @@ class Checkbox extends Widget{
         return this.height;
     }
 
+    get isChecked()
+    {
+        return this.checked;
+    }
+
+    get radiusSize()
+    {
+        return this.radius;
+    }
+
+    set setRadius(value: number)
+    {
+        this.radius = value;
+        this.update();
+        console.log("set radius to", this.radius)
+    }
+
     private positionText() {
         this.textBox = this._text.bbox();
         // in TS, the prepending with + performs a type conversion from string to number
@@ -86,7 +112,8 @@ class Checkbox extends Widget{
     render(): void {
         // creating checkbox
         this._group = (this.parent as Window).window.group();
-        this._rect = this._group.rect(this.width, this.height);
+        console.log("radius = ", this.radius)
+        this._rect = this._group.rect(this.width, this.height).radius(this.radius);
         this._text = this._group.text(this._input);
         this._rect.stroke('#000000'); //outline
         this._rect.fill('#FFFFFF') // white on the inside
@@ -108,6 +135,7 @@ class Checkbox extends Widget{
     }
 
     override update(): void {
+
         if (this._text) {
             this._text.font({ size: this._fontsize});
             this._text.text(this._input);
@@ -159,20 +187,24 @@ class Checkbox extends Widget{
     }
     pressedState(): void {
         // add check
+        
+        
+        this._rect.fill('#87CEFA');
+       
+       
+    }
+    pressReleaseState(): void {
         if(this.checked)
         {
             this.checked = false;
+            this.raise(new EventArgs((this)));
         }
         else
         {
             this.checked = true;
+            this.raise(new EventArgs((this)));
         }
-        
-        this._rect.fill('#87CEFA');
         this.update();
-       
-    }
-    pressReleaseState(): void {
         this._rect.stroke('#000000')
         this._rect.fill('#FFFFFF');
     } 

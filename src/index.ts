@@ -3,6 +3,8 @@ import { Button } from "./widgets/button"
 import { Checkbox } from "./widgets/checkbox";
 import { Heading } from "./widgets/heading"
 import { RadioButton } from "./widgets/radioButton";
+import { RadioButtonHandler } from "./widgets/radioButtonHandler";
+import { SingleRadioButton } from "./widgets/singleRadioButton";
 
 let w = new Window(window.innerHeight - 10, '100%');
 
@@ -70,7 +72,58 @@ checkBox.tabindex = 4;
 checkBox.label = "boxy";
 checkBox.move(20, 200);
 
-let radio = new RadioButton(w);
-radio.tabindex = 5;
-radio.label = "circlely";
-radio.move (20, 250);
+
+
+let chkResp = new Heading(w);
+chkResp.text = "Not checked :(";
+chkResp.tabindex = 6;
+chkResp.fontSize = 14;
+chkResp.move(20, 250);
+
+let checkFunct = function(event: any){
+    if (checkBox.isChecked){
+        chkResp.text = "Checked! :)";
+    }
+    else
+    {
+        chkResp.text = "Not checked :(";
+    }
+}
+checkBox.onClick(checkFunct);
+
+let radio = new RadioButtonHandler(w);
+radio.addRadioButton('hallo', w);
+radio.move (20, 300);
+
+
+let checkLabel = document.createElement('label');
+checkLabel.textContent = "Change Checkbox Name:";
+checkLabel.style.position = 'absolute';
+checkLabel.style.left = '12px';
+checkLabel.style.top = '400px';  
+checkLabel.style.color = 'black';
+checkLabel.style.fontSize = '14px';
+document.body.appendChild(checkLabel);
+
+
+let inputCheckLabel = document.createElement('input');
+inputCheckLabel.type = 'text';
+inputCheckLabel.style.position = 'absolute';
+inputCheckLabel.style.left = '12px';
+inputCheckLabel.style.top = '450px';  
+inputCheckLabel.style.width = '150px';  
+document.body.appendChild(inputCheckLabel);
+
+let checkSubmitButton = document.createElement('button');
+checkSubmitButton.textContent = "Update Checkbox Label";
+checkSubmitButton.style.position = 'absolute';
+checkSubmitButton.style.left = '12px';
+checkSubmitButton.style.top = '500px';  
+checkSubmitButton.style.width = '150px';
+document.body.appendChild(checkSubmitButton);
+
+checkSubmitButton.addEventListener('click', function() {
+    if (inputCheckLabel.value) {
+        checkBox.label = inputCheckLabel.value;  
+    }
+});
