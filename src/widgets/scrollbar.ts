@@ -172,7 +172,7 @@ class Scrollbar extends Widget {
         if (!this._isDragging) return;
         let deltaY = event.clientY - this._startY;
         this._startY = event.clientY;
-        let movementPercentage = deltaY / this.height * 100;
+        let movementPercentage = (deltaY / this.height * 100) * 1.2;
         this.updateScrollPosition(this._scrollPosition + movementPercentage);
         console.log(`Dragging: moved ${movementPercentage.toFixed(2)}%`);
     }
