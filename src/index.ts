@@ -2,7 +2,6 @@ import { Window } from "./core/ui"
 import { Button } from "./widgets/button"
 import { Checkbox } from "./widgets/checkbox";
 import { Heading } from "./widgets/heading"
-import { RadioButton } from "./widgets/radioButton";
 import { RadioButtonHandler } from "./widgets/radioButtonHandler";
 import { SingleRadioButton } from "./widgets/singleRadioButton";
 
