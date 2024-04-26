@@ -13,8 +13,8 @@ class Scrollbar extends Widget {
     private _idleColor: string = "#FFFFFF";
     private _sliderColor: string = "#4682B4";
     private _contentColor: string = "lightgrey";
-    private _hoverColor: string = "#A9A9A9"; 
-    private _pressedColor: string = "#696969"; 
+    private _hoverColor: string = "#A9A9A9";
+    private _pressedColor: string = "#696969";
     private _listeners: { [event: string]: Function[] } = {};
 
     constructor(parent: Window, width: number = 20, height: number = 200, contentHeight: number = 1000) {
@@ -52,11 +52,10 @@ class Scrollbar extends Widget {
 
     // requirement 2
     jumpToPosition(event: MouseEvent): void {
-        const rect = this._rect.node.getBoundingClientRect();
-        const clickPosition = event.clientY - rect.top;
+        const rect = this._rect.node.getBoundingClientRect(); // Absolute positioning
+        const clickPosition = event.clientY - rect.top; // Relative to the current scrollbar position
         const sliderHeight = this._sliderRect.height() as number;
         const newPosition = (clickPosition - sliderHeight / 2) / (this.height - sliderHeight) * 100;
-        console.log(`Jumped to ${newPosition.toFixed(1)}% by clicking`);
         this.updateScrollPosition(newPosition);
     }
 
@@ -65,35 +64,48 @@ class Scrollbar extends Widget {
         this.updateScrollPosition(newScrollPosition);
     }
 
+
     updateScrollPosition(scrollPosition: number): void {
         let oldPosition = this._scrollPosition;
         this._scrollPosition = Math.max(0, Math.min(scrollPosition, 100));
-        let sliderHeight = this._sliderRect.height() as number;
-        let maxSliderTop = this.height - sliderHeight;
-        let sliderTop = (maxSliderTop * this._scrollPosition) / 100;
-        this._sliderRect.y(Math.max(0, Math.min(sliderTop, maxSliderTop)));
+        this.adjustSliderPosition();
         let direction = this._scrollPosition > oldPosition ? 'down' : 'up';
-        // requirement 5
+        // req 5
         console.log(`Scroll position moved from ${oldPosition.toFixed(1)} to ${this._scrollPosition.toFixed(1)}, direction: ${direction}`);
         this.emit('scroll', { position: this._scrollPosition, direction: direction });
     }
-
+    
+    adjustSliderPosition(): void {
+        let sliderHeight = this._sliderRect.height() as number;
+        let maxSliderTop = this.height - sliderHeight;
+        let sliderTop = (maxSliderTop * this._scrollPosition) / 100;
+        let groupY = Number(this._group.y());
+        this._sliderRect.y(groupY + sliderTop);
+    }
+    
     move(x: number, y: number): void {
         this._group.move(x, y);
+        this.recalculateSliderPosition();
+        console.log(`Moved scrollbar to (${x}, ${y})`);
     }
 
+    recalculateSliderPosition(): void {
+        let sliderHeight = this._sliderRect.height() as number;
+        let maxSliderTop = this.height - sliderHeight;
+        let groupY = Number(this._group.y()); 
+        let newTop = groupY + (maxSliderTop * this._scrollPosition) / 100;
+        this._sliderRect.y(newTop);
+    }
+
+    setHeight(newHeight: number): void {
+        this.height = newHeight;
+        this._rect.height(this.height);
+        this.recreateComponents();
+    }
+    
     setWidth(newWidth: number): void {
         this.width = newWidth;
         this._rect.width(this.width);
-        console.log('Set new width of ', this.width);
-        this.recreateComponents();
-    }
-
-    // requirement 3
-    setHeight(newHeight: number): void {
-        this.height = newHeight;
-        this._rect.height(this.height); 
-        console.log(`Set new height of scrollbar to ${this.height}`);
         this.recreateComponents();
     }
 
@@ -142,8 +154,8 @@ class Scrollbar extends Widget {
         this._sliderRect.remove();
         this._upArrow.remove();
         this._downArrow.remove();
-        this._rect.off();  
-        this._rect.on('click', (event: MouseEvent) => this.jumpToPosition(event)); 
+        this._rect.off();
+        this._rect.on('click', (event: MouseEvent) => this.jumpToPosition(event));
         this.updateSliderSize();
         this.createArrows();
         this.attachSliderEventListeners();
@@ -183,30 +195,30 @@ class Scrollbar extends Widget {
     }
 
     idleupState(): void {
-        this._sliderRect.fill(this._sliderColor); 
+        this._sliderRect.fill(this._sliderColor);
     }
 
-    idledownState(): void {}
+    idledownState(): void { }
 
     pressedState(): void {
         this._sliderRect.fill(this._pressedColor);
     }
 
     pressReleaseState(): void {
-        this._sliderRect.fill(this._sliderColor); 
+        this._sliderRect.fill(this._sliderColor);
     }
 
     hoverState(): void {
         this._sliderRect.fill(this._hoverColor);
     }
 
-    hoverPressedState(): void {}
+    hoverPressedState(): void { }
 
-    pressedoutState(): void {}
+    pressedoutState(): void { }
 
-    moveState(): void {}
-    
-    keyupState(): void {}
+    moveState(): void { }
+
+    keyupState(): void { }
 
     on(event: string, listener: Function): void {
         if (!this._listeners[event]) {
