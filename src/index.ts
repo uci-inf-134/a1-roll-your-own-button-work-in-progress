@@ -90,11 +90,7 @@ let checkFunct = function(event: any){
 }
 checkBox.onClick(checkFunct);
 
-let radio = new RadioButtonHandler(w);
-radio.addRadioButton('hallo', w);
-radio.move (20, 300);
-
-
+/*
 let checkLabel = document.createElement('label');
 checkLabel.textContent = "Change Checkbox Name:";
 checkLabel.style.position = 'absolute';
@@ -124,5 +120,40 @@ document.body.appendChild(checkSubmitButton);
 checkSubmitButton.addEventListener('click', function() {
     if (inputCheckLabel.value) {
         checkBox.label = inputCheckLabel.value;  
+    }
+});
+*/
+let radio = new RadioButtonHandler(w);
+radio.addRadioButton('hallo', w);
+radio.move (20, 300);
+
+let radioLabel = document.createElement('label');
+radioLabel.textContent = "Change Selected Radio Button Name:";
+radioLabel.style.position = 'absolute';
+radioLabel.style.left = '200px';
+radioLabel.style.top = '300px';  
+radioLabel.style.color = 'black';
+radioLabel.style.fontSize = '14px';
+document.body.appendChild(radioLabel);
+
+let inputRadioLabel = document.createElement('input');
+inputRadioLabel.type = 'text';
+inputRadioLabel.style.position = 'absolute';
+inputRadioLabel.style.left = '200px';
+inputRadioLabel.style.top = '350px';  
+inputRadioLabel.style.width = '150px';  
+document.body.appendChild(inputRadioLabel);
+
+let radioSubmitButton = document.createElement('button');
+radioSubmitButton.textContent = "Update Selected Label";
+radioSubmitButton.style.position = 'absolute';
+radioSubmitButton.style.left = '200px';
+radioSubmitButton.style.top = '400px';  
+radioSubmitButton.style.width = '150px';
+document.body.appendChild(radioSubmitButton);
+
+radioSubmitButton.addEventListener('click', function(){
+    if(inputRadioLabel.value){
+        radio.selected.label= inputRadioLabel.value;
     }
 });

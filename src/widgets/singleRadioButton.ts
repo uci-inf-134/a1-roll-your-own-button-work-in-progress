@@ -23,6 +23,7 @@ class SingleRadioButton extends Widget{
 
     public checked = false;
     private _fillMark: Circle;
+    private _id: number;
     
     //colors
     private _defaultBorder:string = '#000000';
@@ -48,6 +49,15 @@ class SingleRadioButton extends Widget{
         this.render();
     }
 
+    get id(): number{
+        return this.id;
+    }
+
+    set id(id: number)
+    {
+        this._id = id;
+    }
+    
     get label():string{
         return this._input;
     }

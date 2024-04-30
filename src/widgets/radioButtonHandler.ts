@@ -38,6 +38,16 @@ class RadioButtonHandler extends Widget{
         this.selectable = false;
     }
 
+    get selected()
+    {
+        for(let i = 0; i < this._radioButtons.length; i++)
+            {
+                if (this._radioButtons[i].label == this.currentSelected)
+                    {
+                        return this._radioButtons[i];
+                    }
+            }
+    }
     addRadioButton(label: string, parent: Window)
     {
         let newButton = new SingleRadioButton(parent);
@@ -72,7 +82,7 @@ class RadioButtonHandler extends Widget{
     }
 
     public unfillAllExceptSelected(newSelected:string){
-        console.log("here");
+        //console.log("here");
         this.currentSelected = newSelected;
 
         for(let i = 0; i < this._radioButtons.length; ++i){
