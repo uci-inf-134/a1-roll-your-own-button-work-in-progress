@@ -33,12 +33,13 @@ class SingleRadioButton extends Widget{
 
 
     private textBox: Box;
-    constructor(parent:Window){
+    constructor(parent:Window, id:number){
         super(parent);
         // set defaults
         this.height = this.defaultHeight;
         this.width = this.defaultWidth;
         this._input = this.defaultText;
+        this._id = id;
         // set Aria role
         this.role = RoleType.checkbox;
         //TODO:
@@ -50,12 +51,12 @@ class SingleRadioButton extends Widget{
     }
 
     get id(): number{
-        return this.id;
+        return this._id;
     }
 
-    set id(id: number)
+    set id(newId: number)
     {
-        this._id = id;
+        this._id = newId;
     }
     
     get label():string{
@@ -212,7 +213,7 @@ class SingleRadioButton extends Widget{
             this.checked = true;
             if(this._handler){
                 console.log("unfill")
-                this._handler.unfillAllExceptSelected(this.label);
+                this._handler.unfillAllExceptSelected(this.id);
             }
             this.raise(new EventArgs((this)));
         }

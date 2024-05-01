@@ -7,9 +7,9 @@ class RadioButtonHandler extends Widget{
     private _radioButtons: SingleRadioButton[] = [];
     private _fontSize: number;
     private _defaultWidth: number = 20;
-    private _defaultHeight: number = 20;
-
-    private currentSelected: string = 'none';
+    private _defaultHeight: number = 25;
+    private _currentIdNum = 0;
+    private currentSelected:number = null;
 
     constructor(parent: Window)
     {
@@ -17,14 +17,15 @@ class RadioButtonHandler extends Widget{
         this.height = this._defaultHeight;
         this.width = this._defaultWidth;
 
-        var radio1 = new SingleRadioButton(parent);
+        var radio1 = new SingleRadioButton(parent, this._currentIdNum);
+        this._currentIdNum+= 1;
         radio1.label = 'default 1';
         radio1.handler = this;
-        var radio2 = new SingleRadioButton(parent);
+        var radio2 = new SingleRadioButton(parent, this._currentIdNum);
         radio2.label = 'default 2';
         radio2.handler = this;
-        
-        this.currentSelected = 'default 1'
+        this._currentIdNum += 1;
+        this.currentSelected = radio1.id;
 
 
         this._radioButtons.push(radio1);
@@ -42,7 +43,7 @@ class RadioButtonHandler extends Widget{
     {
         for(let i = 0; i < this._radioButtons.length; i++)
             {
-                if (this._radioButtons[i].label == this.currentSelected)
+                if (this._radioButtons[i].id == this.currentSelected)
                     {
                         return this._radioButtons[i];
                     }
@@ -50,7 +51,8 @@ class RadioButtonHandler extends Widget{
     }
     addRadioButton(label: string, parent: Window)
     {
-        let newButton = new SingleRadioButton(parent);
+        let newButton = new SingleRadioButton(parent, this._currentIdNum);
+        this._currentIdNum++;
         newButton.label = label;
         newButton.handler = this;
         this._radioButtons.push(newButton);
@@ -81,13 +83,13 @@ class RadioButtonHandler extends Widget{
             }
     }
 
-    public unfillAllExceptSelected(newSelected:string){
+    public unfillAllExceptSelected(newSelected:number){
         //console.log("here");
         this.currentSelected = newSelected;
 
         for(let i = 0; i < this._radioButtons.length; ++i){
             console.log(this._radioButtons[i].label, this.currentSelected)
-            if(this._radioButtons[i].label != this.currentSelected){
+            if(this._radioButtons[i].id != this.currentSelected){
                 console.log("uncheck", i)
                 this._radioButtons[i].uncheck();
             }
