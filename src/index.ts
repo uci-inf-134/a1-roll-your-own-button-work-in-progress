@@ -1,5 +1,6 @@
 import { Window } from "./core/ui"
 import { Button } from "./widgets/button"
+
 import { Listbox } from "./widgets/listbox";
 import { Heading } from "./widgets/heading";
 import { ProgressBar } from "./widgets/progressbar";
@@ -10,6 +11,11 @@ interface ScrollEvent {
     direction: string;
     position: number;
 }
+
+import { Checkbox } from "./widgets/checkbox";
+import { RadioButtonHandler } from "./widgets/radioButtonHandler";
+import { SingleRadioButton } from "./widgets/singleRadioButton";
+
 
 let w = new Window(window.innerHeight - 10, '100%');
 
@@ -118,6 +124,7 @@ scrollbar.on('scroll', (event: ScrollEvent) => {
     scrollbarResp.text = `Moved ${event.direction} by ${event.position.toFixed(1)}%`;
 });
 
+
 let scrollbarResp = new Heading(w);
 scrollbarResp.text = "Scrollbar :]";
 scrollbarResp.tabindex = 11;
@@ -139,3 +146,63 @@ textBoxHeading.tabindex = 10;
 textBoxHeading.text = "This text box says: [ NOTHING ]";
 textBoxHeading.fontSize = 14;
 textBoxHeading.move(600, 340);
+=======
+let checkBox = new Checkbox(w);
+checkBox.tabindex = 4;
+checkBox.label = "boxy";
+checkBox.move(20, 200);
+
+
+
+let chkResp = new Heading(w);
+chkResp.text = "Not checked :(";
+chkResp.tabindex = 6;
+chkResp.fontSize = 14;
+chkResp.move(20, 250);
+
+let checkFunct = function(event: any){
+    if (checkBox.isChecked){
+        chkResp.text = "Checked! :)";
+    }
+    else
+    {
+        chkResp.text = "Not checked :(";
+    }
+}
+checkBox.onClick(checkFunct);
+
+let radio = new RadioButtonHandler(w);
+radio.addRadioButton('hallo', w);
+radio.move (20, 300);
+
+let radioLabel = document.createElement('label');
+radioLabel.textContent = "Change Selected Radio Button Name:";
+radioLabel.style.position = 'absolute';
+radioLabel.style.left = '200px';
+radioLabel.style.top = '300px';  
+radioLabel.style.color = 'black';
+radioLabel.style.fontSize = '14px';
+document.body.appendChild(radioLabel);
+
+let inputRadioLabel = document.createElement('input');
+inputRadioLabel.type = 'text';
+inputRadioLabel.style.position = 'absolute';
+inputRadioLabel.style.left = '200px';
+inputRadioLabel.style.top = '350px';  
+inputRadioLabel.style.width = '150px';  
+document.body.appendChild(inputRadioLabel);
+
+let radioSubmitButton = document.createElement('button');
+radioSubmitButton.textContent = "Update Selected Label";
+radioSubmitButton.style.position = 'absolute';
+radioSubmitButton.style.left = '200px';
+radioSubmitButton.style.top = '400px';  
+radioSubmitButton.style.width = '150px';
+document.body.appendChild(radioSubmitButton);
+
+radioSubmitButton.addEventListener('click', function(){
+    if(inputRadioLabel.value){
+        radio.selected.label= inputRadioLabel.value;
+    }
+});
+
