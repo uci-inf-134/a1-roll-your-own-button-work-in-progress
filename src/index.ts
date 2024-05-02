@@ -146,19 +146,20 @@ textBoxHeading.tabindex = 10;
 textBoxHeading.text = "This text box says: [ NOTHING ]";
 textBoxHeading.fontSize = 14;
 textBoxHeading.move(600, 340);
-=======
+
+// Checkbox Widget
+var checkboxX:number = 100;
+var checkboxY = 450;
 let checkBox = new Checkbox(w);
-checkBox.tabindex = 4;
+checkBox.tabindex = 12;
 checkBox.label = "boxy";
-checkBox.move(20, 200);
-
-
+checkBox.move(checkboxX, checkboxY);
 
 let chkResp = new Heading(w);
 chkResp.text = "Not checked :(";
-chkResp.tabindex = 6;
+chkResp.tabindex = 14;
 chkResp.fontSize = 14;
-chkResp.move(20, 250);
+chkResp.move(checkboxX - 5, checkboxY + 40);
 
 let checkFunct = function(event: any){
     if (checkBox.isChecked){
@@ -171,33 +172,74 @@ let checkFunct = function(event: any){
 }
 checkBox.onClick(checkFunct);
 
+let checkLabel = document.createElement('label');
+checkLabel.tabIndex = 14;
+checkLabel.textContent = "Change Checkbox Name:";
+checkLabel.style.position = 'absolute';
+checkLabel.style.left = '108px';
+checkLabel.style.top = '530px';  
+checkLabel.style.color = 'black';
+checkLabel.style.fontSize = '16px';
+document.body.appendChild(checkLabel);
+
+
+let inputCheckLabel = document.createElement('input');
+inputCheckLabel.tabIndex = 16;
+inputCheckLabel.type = 'text';
+inputCheckLabel.style.position = 'absolute';
+inputCheckLabel.style.left = '108px';
+inputCheckLabel.style.top = '550px';  
+inputCheckLabel.style.width = '150px';  
+document.body.appendChild(inputCheckLabel);
+
+let checkSubmitButton = document.createElement('button');
+checkSubmitButton.tabIndex = 18;
+checkSubmitButton.textContent = "Update Checkbox Label";
+checkSubmitButton.style.position = 'absolute';
+checkSubmitButton.style.left = '108px';
+checkSubmitButton.style.top = '580px';  
+checkSubmitButton.style.width = '200px';
+document.body.appendChild(checkSubmitButton);
+
+checkSubmitButton.addEventListener('click', function() {
+    if (inputCheckLabel.value) {
+        checkBox.label = inputCheckLabel.value;  
+    }
+});
+
+
+// Radio Button Widget
 let radio = new RadioButtonHandler(w);
+radio.tabindex = 13;
 radio.addRadioButton('hallo', w);
-radio.move (20, 300);
+radio.move (600, 430);
 
 let radioLabel = document.createElement('label');
 radioLabel.textContent = "Change Selected Radio Button Name:";
+radioLabel.tabIndex = 15;
 radioLabel.style.position = 'absolute';
-radioLabel.style.left = '200px';
-radioLabel.style.top = '300px';  
+radioLabel.style.left = '605px';
+radioLabel.style.top = '550px';  
 radioLabel.style.color = 'black';
-radioLabel.style.fontSize = '14px';
+radioLabel.style.fontSize = '16px';
 document.body.appendChild(radioLabel);
 
 let inputRadioLabel = document.createElement('input');
+inputCheckLabel.tabIndex = 17;
 inputRadioLabel.type = 'text';
 inputRadioLabel.style.position = 'absolute';
-inputRadioLabel.style.left = '200px';
-inputRadioLabel.style.top = '350px';  
+inputRadioLabel.style.left = '605px';
+inputRadioLabel.style.top = '580px';  
 inputRadioLabel.style.width = '150px';  
 document.body.appendChild(inputRadioLabel);
 
 let radioSubmitButton = document.createElement('button');
+radioSubmitButton.tabIndex = 19;
 radioSubmitButton.textContent = "Update Selected Label";
 radioSubmitButton.style.position = 'absolute';
-radioSubmitButton.style.left = '200px';
-radioSubmitButton.style.top = '400px';  
-radioSubmitButton.style.width = '150px';
+radioSubmitButton.style.left = '605px';
+radioSubmitButton.style.top = '610px';  
+radioSubmitButton.style.width = '200px';
 document.body.appendChild(radioSubmitButton);
 
 radioSubmitButton.addEventListener('click', function(){
