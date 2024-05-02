@@ -1,4 +1,4 @@
-import { SVG, Svg, G, Container, Rect, Text, Box, Circle, Number, A } from '@svgdotjs/svg.js'
+import { SVG, Svg, G, Container, Rect, Text, Box, Circle, Number, A, Polygon } from '@svgdotjs/svg.js'
 
 enum RoleType {
     button = "button",
@@ -7,9 +7,11 @@ enum RoleType {
     none = "none",
     scrollbar = "scrollbar",
     window = "window",
+
+    listbox = "listbox",
+    textbox = "textbox"
     checkbox = "checkbox",
     radioButton = 'radiobutton'
-}
 
 interface IAccessibility {
     set role(role: RoleType);
@@ -279,7 +281,7 @@ class EventArgs {
 
 abstract class Component implements IAccessibility {
     public tabindex: number = 0;
-    private _handlers: { (event: EventArgs): void; }[] = [];
+    private _handlers: Map<WidgetState, (e: EventArgs)=>void> = new Map<WidgetState, (e: EventArgs)=>void>();
     protected _isselectable: boolean;
     protected state: WidgetState;
 
@@ -320,12 +322,21 @@ abstract class Component implements IAccessibility {
         return this._isselectable;
     }
 
-    attach(handler: { (event: EventArgs): void }): void {
-        this._handlers.push(handler);
+    attach(handler: { (e: EventArgs): void }, state?: WidgetState): void {
+        this._handlers.set(state, handler);
     }
 
-    raise(event: EventArgs) {
-        this._handlers.slice(0).forEach(h => h(event));
+    raise(event: EventArgs, state?: WidgetState) {
+        this._handlers.forEach((e,s)=>{
+            //if state can be found, raise, otherwise raise everything (for backwards compat)
+            if (state && s instanceof state.constructor)  {
+                e(event);
+            }
+            //if s is undefined, assume only one event attached, so raise
+            if (s == undefined){
+                e(event);
+            }
+        });
     }
 
     move(x: number, y: number): void {
@@ -404,6 +415,9 @@ class Window extends Component {
         SVG(window).on('keyup', (event)=>{
             this.keyEvent = event as KeyboardEvent
             this.state.onKeyup(this);
+        }, window);
+        SVG(window).on('selectionchange', (event)=>{
+            console.log(window.getSelection().toString())
         }, window);
         obj.mouseup((event: any) => {
             this.state.onRelease(this);
@@ -553,4 +567,4 @@ abstract class Widget extends Component {
 export { Window, Widget, Component, IAccessibility, RoleType, EventArgs }
 export { IdleUpWidgetState, IdleDownWidgetState, HoverWidgetState, HoverPressedWidgetState, PressedWidgetState, PressedOutWidgetState, DragWindowState };
 // from svg.js
-export { SVG, Svg, G, Rect, Container, Text, Box, Circle, Number };
+export { SVG, Svg, G, Rect, Container, Text, Box, Circle, Number, Polygon };
